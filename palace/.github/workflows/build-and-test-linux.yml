@@ -1,0 +1,253 @@
+name: Build and Test (Linux)
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test-linux:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:  # Pairwise testing (from allpairspy)
+          - compiler: gcc
+            mpi: mpich
+            math-libs: aocl
+            build-shared: static
+            with-64bit-int: int64
+            with-openmp: openmp
+            with-solver: strumpack
+            with-eigensolver: arpack
+
+          - compiler: clang
+            mpi: mpich
+            math-libs: aocl
+            build-shared: shared
+            with-64bit-int: int64
+            with-openmp: serial
+            with-solver: superlu
+            with-eigensolver: arpack
+
+          - compiler: gcc
+            mpi: openmpi
+            math-libs: openblas
+            build-shared: shared
+            with-64bit-int: int32
+            with-openmp: openmp
+            with-solver: strumpack
+            with-eigensolver: slepc
+
+          - compiler: intel
+            mpi: intelmpi
+            math-libs: intelmkl
+            build-shared: static
+            with-64bit-int: int64
+            with-openmp: openmp
+            with-solver: superlu
+            with-eigensolver: slepc
+
+          - compiler: intel
+            mpi: intelmpi
+            math-libs: intelmkl
+            build-shared: static
+            with-64bit-int: int32
+            with-openmp: serial
+            with-solver: strumpack
+            with-eigensolver: arpack
+
+          - compiler: intel
+            mpi: intelmpi
+            math-libs: intelmkl
+            build-shared: shared
+            with-64bit-int: int32
+            with-openmp: openmp
+            with-solver: strumpack
+            with-eigensolver: slepc
+
+          - compiler: gcc
+            mpi: openmpi
+            math-libs: aocl
+            build-shared: static
+            with-64bit-int: int32
+            with-openmp: serial
+            with-solver: strumpack
+            with-eigensolver: slepc
+
+          - compiler: clang
+            mpi: mpich
+            math-libs: aocl
+            build-shared: static
+            with-64bit-int: int32
+            with-openmp: serial
+            with-solver: superlu
+            with-eigensolver: slepc
+
+    runs-on: palace_ubuntu-latest_16-core
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+
+      - name: Configure Open MPI
+        if: matrix.mpi == 'openmpi'
+        run: |
+          sudo apt-get install -y openmpi-bin libopenmpi-dev
+
+      - name: Configure MPICH
+        if: matrix.mpi == 'mpich'
+        run: |
+          sudo apt-get install -y mpich libmpich-dev
+
+      - name: Configure Intel MPI
+        if: matrix.mpi == 'intelmpi'
+        uses: mpi4py/setup-mpi@v1
+        with:
+          mpi: ${{ matrix.mpi }}
+
+      - name: Configure Clang compiler
+        if: matrix.compiler == 'clang'
+        run: |
+          sudo apt-get install -y clang lld
+
+      - name: Configure Intel oneAPI compiler
+        if: matrix.compiler == 'intel'
+        run: |
+          sudo apt-get install -y intel-oneapi-compiler-dpcpp-cpp \
+                                  intel-oneapi-compiler-fortran
+
+      - name: Install math libraries (OpenBLAS)
+        if: matrix.math-libs == 'openblas'
+        run: |
+          if [[ "${{ matrix.with-openmp }}" == 'openmp' ]]; then
+            sudo apt-get install -y libopenblas-openmp-dev
+          else
+            sudo apt-get install -y libopenblas-serial-dev
+          fi
+
+      - name: Install math libraries (Intel oneAPI MKL)
+        if: matrix.math-libs == 'intelmkl'
+        run: |
+          sudo apt-get install -y intel-oneapi-mkl intel-oneapi-mkl-devel
+
+      - name: Install math libraries (AOCL)
+        if: matrix.math-libs == 'aocl'
+        run: |
+          wget https://download.amd.com/developer/eula/aocl/aocl-4-1/aocl-linux-gcc-4.1.0_1_amd64.deb
+          sudo apt-get install -y ./aocl-linux-gcc-4.1.0_1_amd64.deb
+          rm aocl-linux-gcc-*.deb
+
+      - name: Build Palace
+        env:
+          CMAKE_BUILD_TYPE: Release
+          NUM_PROC_BUILD_MAX: '32'
+        run: |
+          # Configure environment
+          if [[ "${{ matrix.compiler }}" == 'intel' ]] || \
+             [[ "${{ matrix.mpi }}" == 'intelmpi' ]] || \
+             [[ "${{ matrix.math-libs }}" == 'intelmkl' ]]; then
+            source /opt/intel/oneapi/setvars.sh  # Sets PATH, MKLROOT
+            if [[ "${{ matrix.compiler }}" == 'intel' ]]; then
+              export CC=icx
+              export CXX=icpx
+              export FC=ifx
+            fi
+          elif [[ "${{ matrix.compiler }}" == 'clang' ]]; then
+            export CC=clang
+            export CXX=clang++
+            export FC=gfortran-12
+            export LDFLAGS='-fuse-ld=lld'
+          elif [[ "${{ matrix.compiler }}" == 'gcc' ]]; then
+            export CC=gcc-12
+            export CXX=g++-12
+            export FC=gfortran-12
+          fi
+          if [[ "${{ matrix.math-libs }}" == 'aocl' ]]; then
+            export AOCLROOT=/opt/AMD/aocl/aocl-linux-gcc-4.1.0/gcc
+            export LD_LIBRARY_PATH=$AOCLROOT/lib:$LD_LIBRARY_PATH
+          fi
+          export NUM_PROC_BUILD=$(nproc 2> /dev/null || sysctl -n hw.ncpu)
+          if [[ "$NUM_PROC_BUILD" -gt "$NUM_PROC_BUILD_MAX" ]]; then
+            NUM_PROC_BUILD=$NUM_PROC_BUILD_MAX
+          fi
+
+          [[ "${{ matrix.build-shared }}" == 'shared' ]] && BUILD_SHARED='ON' || BUILD_SHARED='OFF'
+          [[ "${{ matrix.with-64bit-int }}" == 'int64' ]] && WITH_INT64='ON' || WITH_INT64='OFF'
+          [[ "${{ matrix.with-openmp }}" == 'openmp' ]] && WITH_OPENMP='ON' || WITH_OPENMP='OFF'
+
+          [[ "${{ matrix.with-solver }}" == 'superlu' ]] && WITH_SUPERLU='ON' || WITH_SUPERLU='OFF'
+          [[ "${{ matrix.with-solver }}" == 'strumpack' ]] && WITH_STRUMPACK='ON' || WITH_STRUMPACK='OFF'
+          [[ "${{ matrix.with-solver }}" == 'mumps' ]] && WITH_MUMPS='ON' || WITH_MUMPS='OFF'
+          [[ "${{ matrix.with-eigensolver }}" == 'slepc' ]] && WITH_SLEPC='ON' || WITH_SLEPC='OFF'
+          [[ "${{ matrix.with-eigensolver }}" == 'arpack' ]] && WITH_ARPACK='ON' || WITH_ARPACK='OFF'
+
+          # Build and install (with unit tests)
+          mkdir palace-build && cd palace-build
+          cmake .. \
+            -DCMAKE_INSTALL_PREFIX=$(pwd)/../palace-install \
+            -DBUILD_SHARED_LIBS=$BUILD_SHARED \
+            -DPALACE_WITH_64BIT_INT=$WITH_INT64 \
+            -DPALACE_WITH_OPENMP=$WITH_OPENMP \
+            -DPALACE_WITH_SUPERLU=$WITH_SUPERLU \
+            -DPALACE_WITH_STRUMPACK=$WITH_STRUMPACK \
+            -DPALACE_WITH_MUMPS=$WITH_MUMPS \
+            -DPALACE_WITH_SLEPC=$WITH_SLEPC \
+            -DPALACE_WITH_ARPACK=$WITH_ARPACK
+          make -j$NUM_PROC_BUILD palace-tests
+
+      - name: Run unit tests
+        env:
+          NUM_PROC_TEST_MAX: '2'
+        run: |
+          # Configure environment
+          if [[ "${{ matrix.compiler }}" == 'intel' ]] || \
+             [[ "${{ matrix.mpi }}" == 'intelmpi' ]] || \
+             [[ "${{ matrix.math-libs }}" == 'intelmkl' ]]; then
+            source /opt/intel/oneapi/setvars.sh  # Sets PATH, MKLROOT
+          fi
+          if [[ "${{ matrix.with-openmp }}" == 'true' ]]; then
+            export OMP_NUM_THREADS=2
+          else
+            export OMP_NUM_THREADS=1
+          fi
+          export LD_LIBRARY_PATH=$(pwd)/palace-install/lib:$LD_LIBRARY_PATH
+          export LD_LIBRARY_PATH=$(pwd)/palace-install/lib64:$LD_LIBRARY_PATH
+          cd $(pwd)/palace-build/palace-build/test/unit
+
+          # Run tests
+          mpirun -np $NUM_PROC_TEST_MAX ./unit-tests --skip-benchmarks
+
+      - name: Run regression tests for examples/
+        env:
+          NUM_PROC_TEST_MAX: '8'
+        run: |
+          # Configure environment
+          if [[ "${{ matrix.compiler }}" == 'intel' ]] || \
+             [[ "${{ matrix.mpi }}" == 'intelmpi' ]] || \
+             [[ "${{ matrix.math-libs }}" == 'intelmkl' ]]; then
+            source /opt/intel/oneapi/setvars.sh  # Sets PATH, MKLROOT
+          fi
+          if [[ "${{ matrix.math-libs }}" == 'aocl' ]]; then
+            export AOCLROOT=/opt/AMD/aocl/aocl-linux-gcc-4.1.0/gcc
+            export LD_LIBRARY_PATH=$AOCLROOT/lib:$LD_LIBRARY_PATH
+          fi
+          export NUM_PROC_TEST=$(nproc 2> /dev/null || sysctl -n hw.ncpu)
+          if [[ "$NUM_PROC_TEST" -gt "$NUM_PROC_TEST_MAX" ]]; then
+            NUM_PROC_TEST=$NUM_PROC_TEST_MAX
+          fi
+          if [[ "${{ matrix.with-openmp }}" == 'true' ]]; then
+            NUM_PROC_TEST=$(( NUM_PROC_TEST / 2 ))
+            export OMP_NUM_THREADS=2
+          else
+            export OMP_NUM_THREADS=1
+          fi
+          export PATH=$(pwd)/palace-install/bin:$PATH
+
+          # Run tests
+          julia --project=test/examples -e 'using Pkg; Pkg.instantiate()'
+          julia --project=test/examples --color=yes test/examples/runtests.jl

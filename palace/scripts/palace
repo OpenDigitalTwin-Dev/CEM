@@ -1,0 +1,185 @@
+#!/bin/bash
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+help()
+{
+    echo "Usage: palace [OPTIONS] CONFIG_FILE
+
+Wrapper for launching Palace using MPI
+
+Options:
+  -h, --help                       Show this help message and exit
+  -dry-run, --dry-run              Parse configuration file for errors and exit
+  -serial, --serial                Call Palace without MPI launcher, default is false
+  -np, --np NUM_PROCS              How many MPI processes to use, default is 1
+  -nt, --nt NUM_THREADS            Number of OpenMP threads to use for OpenMP builds, default is 1 or the value of OMP_NUM_THREADS in the environment
+  -launcher, --launcher LAUNCHER   MPI launcher, default is \`mpirun\`
+  -launcher-args,
+    --launcher-args ARGS           Any extra arguments to pass to MPI launcher, for example \`--map-by\` or \`--bind-to\` with their respective options (quoted)
+"
+}
+
+# Parse arguments
+DRY_RUN=""
+SERIAL="false"
+NUM_PROCS="1"
+NUM_THREADS=""
+LAUNCHER="mpirun"
+LAUNCHER_ARGS=""
+POSITIONAL=()
+while [[ $# -gt 0 ]]; do
+    key="$1"
+    case $key in
+        -h|--help)
+        help
+        exit 0
+        ;;
+        -dry-run|--dry-run)
+        DRY_RUN="--dry-run"
+        shift
+        ;;
+        -serial|--serial|-sequential|--sequential)
+        SERIAL="true"
+        shift
+        ;;
+        -np|--np)
+        NUM_PROCS="$2"
+        shift
+        shift
+        ;;
+        -nt|--nt)
+        NUM_THREADS="$2"
+        shift
+        shift
+        ;;
+        -launcher|--launcher)
+        LAUNCHER="$2"
+        shift
+        shift
+        ;;
+        -launcher-args|--launcher-args)
+        LAUNCHER_ARGS="$2"
+        shift
+        shift
+        ;;
+        "-"|"--")
+        shift
+        break
+        ;;
+        *)
+        POSITIONAL+=("$1")  # Unknown option, save it in an array for later
+        shift
+        ;;
+    esac
+done
+set -- "${POSITIONAL[@]}"  # Restore positional parameters
+
+# Check arguments: Config file and everything remaining is passed to Palace binary
+if [[ -z "$@" ]]; then
+    help
+    exit 1
+else
+    CONFIG="$@"
+fi
+
+# Try to find the Palace executable
+PALACE_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+PALACE=$(find $PALACE_DIR -type f -name "palace-*.bin" 2> /dev/null)
+if [[ -z "$PALACE" ]]; then
+    echo "Error: Could not locate Palace executable in \"$PALACE_DIR\""
+    exit 1
+elif [[ $(echo "$PALACE" | wc -l) -gt 1 ]]; then
+    TABLE=""
+    while IFS= read -r FILE; do
+        DIR=$(echo $FILE | cut -d "/" -f2)
+        TABLE="  $FILE\n$TABLE"
+    done <<< "$PALACE"
+    echo "Error: Could not locate a single Palace executable in \"$PALACE_DIR\""
+    echo "Possible executable files:"
+    printf "$TABLE"
+    exit 1
+fi
+if [[ $(uname -m) == arm* ]] || [[ $(uname -m) == aarch64 ]]; then
+    ARCH='arm64'
+else
+    ARCH='x86_64'
+fi
+if ! echo $PALACE | grep -q $ARCH; then
+    echo "Error: Palace binary \"$PALACE\" does not match host architecture"
+    exit 1
+fi
+
+# Configure --dry-run
+if [[ -n "$DRY_RUN" ]]; then
+    PALACE="$PALACE $DRY_RUN"
+fi
+
+# Configure OpenMP threads
+NUM_THREADS_BACKUP=$OMP_NUM_THREADS
+if [[ -z "$NUM_THREADS" ]]; then
+    NUM_THREADS=${OMP_NUM_THREADS:-1}
+fi
+export OMP_NUM_THREADS=$NUM_THREADS
+
+if $SERIAL; then
+    # Run sequential simulation
+    if [[ -n "$WORK_DIR" ]]; then
+        echo ">> cd $WORK_DIR && $PALACE $CONFIG"
+        cd $WORK_DIR
+    else
+        echo ">> $PALACE $CONFIG"
+    fi
+    $PALACE $CONFIG
+    EXIT_CODE=$?
+else
+    # Configure parallel MPI execution
+    LAUNCHER=${LAUNCHER:-mpirun}
+    if ! command -v $LAUNCHER &> /dev/null; then
+        echo "Error: Could not locate MPI launcher, try specifying a value for --launcher"
+        exit 1
+    fi
+    MPIRUN="$(which $LAUNCHER) -n $NUM_PROCS"
+    if [[ -n "$LAUNCHER_ARGS" ]]; then
+        MPIRUN="$MPIRUN $LAUNCHER_ARGS"
+    fi
+
+    # Run parallel simulation
+    NODE_FILE=mpi_nodes
+    if [[ -n "$PBS_NODEFILE" ]]; then
+        # PBS/Torque job
+        cat $PBS_NODEFILE | sort | uniq > $NODE_FILE
+        WORK_DIR=$PBS_O_WORKDIR
+    elif [[ -n "$SLURM_JOB_NODELIST" ]]; then
+        # Slurm job
+        scontrol show hostnames $SLURM_JOB_NODELIST > $NODE_FILE
+        WORK_DIR=$SLURM_SUBMIT_DIR
+    else
+        WORK_DIR=""
+    fi
+    if [[ -z "$WORK_DIR" ]]; then
+        # Local execution
+        echo ">> $MPIRUN $PALACE $CONFIG"
+        $MPIRUN $PALACE $CONFIG
+        EXIT_CODE=$?
+    else
+        echo The master node of this job is `hostname`
+        echo The working directory is `echo $WORK_DIR`
+        echo This job runs on the following nodes: && cat $NODE_FILE
+        MPIRUN="$MPIRUN --hostfile $NODE_FILE"
+
+        # Distributed execution
+        echo ">> $MPIRUN $PALACE $CONFIG"
+        $MPIRUN $PALACE $CONFIG
+        EXIT_CODE=$?
+
+        rm $NODE_FILE
+    fi
+fi
+
+# Reset user environment
+OMP_NUM_THREADS=$NUM_THREADS_BACKUP
+
+# Return the exit code from Palace
+exit $EXIT_CODE
