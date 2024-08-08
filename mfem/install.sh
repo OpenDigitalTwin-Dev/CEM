@@ -3,7 +3,7 @@
 sudo apt update
 sudo apt -y install cmake
 sudo apt -y install make
-sudo apt -y install gcc g++ gfortran
+sudo apt -y install gcc g++ gfortran libmpich-dev liblapack-dev
 
 # need to set MFEM_USE_SUPERLU5=ON, if dont superlu has some problems
 mkdir build
