@@ -1,5 +1,5 @@
 sudo apt update
-sudo apt -y install cmake make gcc g++ libmpich-dev liblapack-dev libeigen3-dev
+sudo apt -y install cmake make gcc g++ libmpich-dev liblapack-dev libeigen3-dev libomp-dev
 
 cd palace
 rm -rf build
