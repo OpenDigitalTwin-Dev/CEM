@@ -13,7 +13,9 @@ cmake \
     -DMFEM_USE_MPI=ON \
     -DMFEM_USE_SUPERLU=ON \
     -DMFEM_USE_METIS=ON \
+    -DMFEM_USE_GSLIB=ON \
     -DCEED_DIR=$PWD/../../../NLA/install/libceed_install \
+    -DGSLIB_DIR=$PWD/../../install/gslib_install \
     -DHYPRE_DIR=$PWD/../../../NLA/install/hypre_install \
     -DParMETIS_DIR=$PWD/../../../install/parmetis_install \
     -DMETIS_DIR=$PWD/../../../NSM/extern/ALE/install/metis \
