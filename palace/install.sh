@@ -1,6 +1,58 @@
 sudo apt update
 sudo apt -y install cmake make gcc g++ libmpich-dev liblapack-dev libeigen3-dev libomp-dev
 
+cd ../../
+
+cd CEM/gslib/
+./install.sh
+cd ../..
+
+cd NLA/hypre
+./install.sh
+cd ../../
+
+cd NLA/libceed
+./install.sh
+cd ../../
+
+cd parmetis
+./install.sh
+cd ..
+
+cd NLA/superlu_dist
+./install.sh
+cd ../../
+
+cd CEM/mfem/
+./install.sh
+cd ../..
+
+cd json
+./install.sh
+cd ..
+
+cd fmt
+./install.sh
+cd ..
+
+cd fftw
+./install
+cd ..
+
+cd NLA/lapack
+./install.sh
+cd ../../
+
+cd NLA/petsc
+./install.sh
+cd ../../
+
+cd NLA/slepc
+./install.sh
+cd ../../
+
+cd CEM/palace
+
 cd palace
 rm -rf build
 mkdir build
