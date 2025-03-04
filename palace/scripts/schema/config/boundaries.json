@@ -1,0 +1,307 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Configuration File Schema -- \"Boundaries\"",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [],
+  "properties":
+  {
+    "PEC":
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["Attributes"],
+      "properties":
+      {
+        "Attributes": { "$ref": "#/$defs/Attributes" }
+      }
+    },
+    "PMC":
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["Attributes"],
+      "properties":
+      {
+        "Attributes": { "$ref": "#/$defs/Attributes" }
+      }
+    },
+    "Impedance":
+    {
+      "type": "array",
+      "additionalItems": false,
+      "items":
+      {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["Attributes"],
+        "properties":
+        {
+          "Attributes": { "$ref": "#/$defs/Attributes" },
+          "Rs": { "type": "number" },
+          "Ls": { "type": "number" },
+          "Cs": { "type": "number" }
+        }
+      }
+    },
+    "Absorbing":
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["Attributes"],
+      "properties":
+      {
+        "Attributes": { "$ref": "#/$defs/Attributes" },
+        "Order": { "type": "integer" }
+      }
+    },
+    "Conductivity":
+    {
+      "type": "array",
+      "additionalItems": false,
+      "items":
+      {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["Attributes", "Conductivity"],
+        "properties":
+        {
+          "Attributes": { "$ref": "#/$defs/Attributes" },
+          "Conductivity": { "type": "number" },
+          "Permeability": { "type": "number" },
+          "Thickness": { "type": "number" },
+          "External": { "type": "boolean" }
+        }
+      }
+    },
+    "LumpedPort":
+    {
+      "type": "array",
+      "additionalItems": false,
+      "items":
+      {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["Index"],
+        "properties":
+        {
+          "Index": { "type": "integer" },
+          "Attributes": { "$ref": "#/$defs/Attributes" },
+          "Direction": { "$ref": "#/$defs/Direction" },
+          "CoordinateSystem": { "type": "string", "enum": ["Cartesian", "Cylindrical"] },
+          "R": { "type": "number" },
+          "L": { "type": "number" },
+          "C": { "type": "number" },
+          "Rs": { "type": "number" },
+          "Ls": { "type": "number" },
+          "Cs": { "type": "number" },
+          "Excitation": { "type": "boolean" },
+          "Active": { "type": "boolean" },
+          "Elements":
+          {
+            "type": "array",
+            "additionalItems": false,
+            "items":
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["Attributes", "Direction"],
+              "properties":
+              {
+                "Attributes": { "$ref": "#/$defs/Attributes" },
+                "Direction": { "$ref": "#/$defs/Direction" },
+                "CoordinateSystem": { "type": "string", "enum": ["Cartesian", "Cylindrical"] }
+              }
+            }
+          }
+        }
+      }
+    },
+    "WavePort":
+    {
+      "type": "array",
+      "additionalItems": false,
+      "items":
+      {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["Index", "Attributes"],
+        "properties":
+        {
+          "Index": { "type": "integer" },
+          "Attributes": { "$ref": "#/$defs/Attributes" },
+          "Mode": { "type": "integer", "exclusiveMinimum": 0 },
+          "Offset": { "type": "number", "minimum": 0.0 },
+          "Excitation": { "type": "boolean" },
+          "Active": { "type": "boolean" }
+        }
+      }
+    },
+    "WavePortPEC":
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["Attributes"],
+      "properties":
+      {
+        "Attributes": { "$ref": "#/$defs/Attributes" }
+      }
+    },
+    "SurfaceCurrent":
+    {
+      "type": "array",
+      "additionalItems": false,
+      "items":
+      {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["Index"],
+        "properties":
+        {
+          "Index": { "type": "integer" },
+          "Attributes": { "$ref": "#/$defs/Attributes" },
+          "Direction": { "$ref": "#/$defs/Direction" },
+          "CoordinateSystem": { "type": "string", "enum": ["Cartesian", "Cylindrical"] },
+          "Elements":
+          {
+            "type": "array",
+            "additionalItems": false,
+            "items":
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["Attributes", "Direction"],
+              "properties":
+              {
+                "Attributes": { "$ref": "#/$defs/Attributes" },
+                "Direction": { "$ref": "#/$defs/Direction" },
+                "CoordinateSystem": { "type": "string", "enum": ["Cartesian", "Cylindrical"] }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Ground":
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["Attributes"],
+      "properties":
+      {
+        "Attributes": { "$ref": "#/$defs/Attributes" }
+      }
+    },
+    "ZeroCharge":
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["Attributes"],
+      "properties":
+      {
+        "Attributes": { "$ref": "#/$defs/Attributes" }
+      }
+    },
+    "Terminal":
+    {
+      "type": "array",
+      "additionalItems": false,
+      "items":
+      {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["Index", "Attributes"],
+        "properties":
+        {
+          "Index": { "type": "integer" },
+          "Attributes": { "$ref": "#/$defs/Attributes" }
+        }
+      }
+    },
+    "Postprocessing":
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [],
+      "properties":
+      {
+        "SurfaceFlux":
+        {
+          "type": "array",
+          "additionalItems": false,
+          "items":
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["Index", "Attributes", "Type"],
+            "properties":
+            {
+              "Index": { "type": "integer" },
+              "Attributes": { "$ref": "#/$defs/Attributes" },
+              "Type": { "type": "string", "enum": ["Electric", "Magnetic", "Power"] },
+              "TwoSided": { "type": "boolean" },
+              "Center":
+              {
+                "type": "array",
+                "additionalItems": false,
+                "items": { "type": "number" },
+                "minItems": 3,
+                "maxItems": 3
+              }
+            }
+          }
+        },
+        "Dielectric":
+        {
+          "type": "array",
+          "additionalItems": false,
+          "items":
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["Index", "Attributes", "Thickness", "Permittivity"],
+            "properties":
+            {
+              "Index": { "type": "integer" },
+              "Attributes": { "$ref": "#/$defs/Attributes" },
+              "Type": { "type": "string", "enum": ["Default", "MA", "MS", "SA"] },
+              "Thickness": { "type": "number" },
+              "Permittivity": { "type": "number" },
+              "LossTan": { "type": "number" },
+              "Side": { "type": "string", "enum": ["SmallerRefractiveIndex", "LargerRefractiveIndex"] }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs":
+  {
+    "Attributes":
+    {
+      "type": "array",
+      "additionalItems": false,
+      "items": { "type": "integer"},
+      "minItems": 1
+    },
+    "Direction":
+    {
+      "anyOf":
+      [
+        {
+          "type": "string",
+          "enum": ["R", "X", "Y", "Z", "+R", "+X", "+Y", "+Z", "-R", "-X", "-Y", "-Z",
+                   "r", "x", "y", "z", "+r", "+x", "+y", "+z", "-r", "-x", "-y", "-z"]
+        },
+        {
+          "type": "array",
+          "additionalItems": false,
+          "items": { "type": "number" },
+          "minItems": 3,
+          "maxItems": 3
+        }
+      ]
+    }
+  }
+}
+

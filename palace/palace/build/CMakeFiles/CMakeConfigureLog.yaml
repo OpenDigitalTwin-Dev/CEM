@@ -1,0 +1,951 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineSystem.cmake:233 (message)"
+      - "CMakeLists.txt:22 (project)"
+    message: |
+      The system is: Linux - 6.11.0-17-generic - x86_64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:22 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler: /usr/bin/c++ 
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+      
+      The CXX compiler identification is GNU, found in:
+        /home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/3.28.3/CompilerIdCXX/a.out
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCompilerABI.cmake:57 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:22 (project)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-FrZtsB"
+      binary: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-FrZtsB"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-FrZtsB'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_4b6e5/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_4b6e5.dir/build.make CMakeFiles/cmTC_4b6e5.dir/build
+        gmake[1]: Entering directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-FrZtsB'
+        Building CXX object CMakeFiles/cmTC_4b6e5.dir/CMakeCXXCompilerABI.cpp.o
+        /usr/bin/c++   -std=c++17   -v -o CMakeFiles/cmTC_4b6e5.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.28/Modules/CMakeCXXCompilerABI.cpp
+        Using built-in specs.
+        COLLECT_GCC=/usr/bin/c++
+        OFFLOAD_TARGET_NAMES=nvptx-none:hsa
+        OFFLOAD_TARGET_DEFAULT=1
+        Target: x86_64-linux-gnu
+        Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.5.0-6ubuntu2' --with-bugurl=file:///usr/share/doc/gcc-9/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++,gm2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-9 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-9-xyHAOX/gcc-9-9.5.0/debian/tmp-nvptx/usr,hsa --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu --with-build-config=bootstrap-lto-lean --enable-link-mutex
+        Thread model: posix
+        gcc version 9.5.0 (Ubuntu 9.5.0-6ubuntu2) 
+        COLLECT_GCC_OPTIONS='-std=c++17' '-v' '-o' 'CMakeFiles/cmTC_4b6e5.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+         /usr/lib/gcc/x86_64-linux-gnu/9/cc1plus -quiet -v -imultiarch x86_64-linux-gnu -D_GNU_SOURCE /usr/share/cmake-3.28/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_4b6e5.dir/CMakeCXXCompilerABI.cpp.o -std=c++17 -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/cc5uY4QN.s
+        GNU C++17 (Ubuntu 9.5.0-6ubuntu2) version 9.5.0 (x86_64-linux-gnu)
+        	compiled by GNU C version 9.5.0, GMP version 6.3.0, MPFR version 4.2.1, MPC version 1.3.1, isl version isl-0.26-GMP
+        
+        GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+        ignoring duplicate directory "/usr/include/x86_64-linux-gnu/c++/9"
+        ignoring nonexistent directory "/usr/local/include/x86_64-linux-gnu"
+        ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/9/include-fixed"
+        ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/9/../../../../x86_64-linux-gnu/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /usr/include/c++/9
+         /usr/include/x86_64-linux-gnu/c++/9
+         /usr/include/c++/9/backward
+         /usr/lib/gcc/x86_64-linux-gnu/9/include
+         /usr/local/include
+         /usr/include/x86_64-linux-gnu
+         /usr/include
+        End of search list.
+        GNU C++17 (Ubuntu 9.5.0-6ubuntu2) version 9.5.0 (x86_64-linux-gnu)
+        	compiled by GNU C version 9.5.0, GMP version 6.3.0, MPFR version 4.2.1, MPC version 1.3.1, isl version isl-0.26-GMP
+        
+        GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+        Compiler executable checksum: 66ea8946341454def67826b9f0958054
+        COLLECT_GCC_OPTIONS='-std=c++17' '-v' '-o' 'CMakeFiles/cmTC_4b6e5.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+         as -v --64 -o CMakeFiles/cmTC_4b6e5.dir/CMakeCXXCompilerABI.cpp.o /tmp/cc5uY4QN.s
+        GNU assembler version 2.42 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.42
+        COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/
+        LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../:/lib/:/usr/lib/
+        COLLECT_GCC_OPTIONS='-std=c++17' '-v' '-o' 'CMakeFiles/cmTC_4b6e5.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+        Linking CXX executable cmTC_4b6e5
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4b6e5.dir/link.txt --verbose=1
+        /usr/bin/c++  -v CMakeFiles/cmTC_4b6e5.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_4b6e5 
+        Using built-in specs.
+        COLLECT_GCC=/usr/bin/c++
+        COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper
+        OFFLOAD_TARGET_NAMES=nvptx-none:hsa
+        OFFLOAD_TARGET_DEFAULT=1
+        Target: x86_64-linux-gnu
+        Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.5.0-6ubuntu2' --with-bugurl=file:///usr/share/doc/gcc-9/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++,gm2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-9 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-9-xyHAOX/gcc-9-9.5.0/debian/tmp-nvptx/usr,hsa --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu --with-build-config=bootstrap-lto-lean --enable-link-mutex
+        Thread model: posix
+        gcc version 9.5.0 (Ubuntu 9.5.0-6ubuntu2) 
+        COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/
+        LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../:/lib/:/usr/lib/
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_4b6e5' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+         /usr/lib/gcc/x86_64-linux-gnu/9/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/9/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper -plugin-opt=-fresolution=/tmp/ccfu4U94.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_4b6e5 /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/9/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/9 -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/9/../../.. CMakeFiles/cmTC_4b6e5.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/9/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_4b6e5' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+        gmake[1]: Leaving directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-FrZtsB'
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCompilerABI.cmake:127 (message)"
+      - "/usr/share/cmake-3.28/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:22 (project)"
+    message: |
+      Parsed CXX implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [/usr/include/c++/9]
+          add: [/usr/include/x86_64-linux-gnu/c++/9]
+          add: [/usr/include/c++/9/backward]
+          add: [/usr/lib/gcc/x86_64-linux-gnu/9/include]
+          add: [/usr/local/include]
+          add: [/usr/include/x86_64-linux-gnu]
+          add: [/usr/include]
+        end of search list found
+        collapse include dir [/usr/include/c++/9] ==> [/usr/include/c++/9]
+        collapse include dir [/usr/include/x86_64-linux-gnu/c++/9] ==> [/usr/include/x86_64-linux-gnu/c++/9]
+        collapse include dir [/usr/include/c++/9/backward] ==> [/usr/include/c++/9/backward]
+        collapse include dir [/usr/lib/gcc/x86_64-linux-gnu/9/include] ==> [/usr/lib/gcc/x86_64-linux-gnu/9/include]
+        collapse include dir [/usr/local/include] ==> [/usr/local/include]
+        collapse include dir [/usr/include/x86_64-linux-gnu] ==> [/usr/include/x86_64-linux-gnu]
+        collapse include dir [/usr/include] ==> [/usr/include]
+        implicit include dirs: [/usr/include/c++/9;/usr/include/x86_64-linux-gnu/c++/9;/usr/include/c++/9/backward;/usr/lib/gcc/x86_64-linux-gnu/9/include;/usr/local/include;/usr/include/x86_64-linux-gnu;/usr/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCompilerABI.cmake:159 (message)"
+      - "/usr/share/cmake-3.28/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:22 (project)"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        ignore line: [Change Dir: '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-FrZtsB']
+        ignore line: []
+        ignore line: [Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_4b6e5/fast]
+        ignore line: [/usr/bin/gmake  -f CMakeFiles/cmTC_4b6e5.dir/build.make CMakeFiles/cmTC_4b6e5.dir/build]
+        ignore line: [gmake[1]: Entering directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-FrZtsB']
+        ignore line: [Building CXX object CMakeFiles/cmTC_4b6e5.dir/CMakeCXXCompilerABI.cpp.o]
+        ignore line: [/usr/bin/c++   -std=c++17   -v -o CMakeFiles/cmTC_4b6e5.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.28/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Using built-in specs.]
+        ignore line: [COLLECT_GCC=/usr/bin/c++]
+        ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none:hsa]
+        ignore line: [OFFLOAD_TARGET_DEFAULT=1]
+        ignore line: [Target: x86_64-linux-gnu]
+        ignore line: [Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.5.0-6ubuntu2' --with-bugurl=file:///usr/share/doc/gcc-9/README.Bugs --enable-languages=c ada c++ go brig d fortran objc obj-c++ gm2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-9 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32 m64 mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-9-xyHAOX/gcc-9-9.5.0/debian/tmp-nvptx/usr hsa --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu --with-build-config=bootstrap-lto-lean --enable-link-mutex]
+        ignore line: [Thread model: posix]
+        ignore line: [gcc version 9.5.0 (Ubuntu 9.5.0-6ubuntu2) ]
+        ignore line: [COLLECT_GCC_OPTIONS='-std=c++17' '-v' '-o' 'CMakeFiles/cmTC_4b6e5.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+        ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/9/cc1plus -quiet -v -imultiarch x86_64-linux-gnu -D_GNU_SOURCE /usr/share/cmake-3.28/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_4b6e5.dir/CMakeCXXCompilerABI.cpp.o -std=c++17 -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/cc5uY4QN.s]
+        ignore line: [GNU C++17 (Ubuntu 9.5.0-6ubuntu2) version 9.5.0 (x86_64-linux-gnu)]
+        ignore line: [	compiled by GNU C version 9.5.0  GMP version 6.3.0  MPFR version 4.2.1  MPC version 1.3.1  isl version isl-0.26-GMP]
+        ignore line: []
+        ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+        ignore line: [ignoring duplicate directory "/usr/include/x86_64-linux-gnu/c++/9"]
+        ignore line: [ignoring nonexistent directory "/usr/local/include/x86_64-linux-gnu"]
+        ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/9/include-fixed"]
+        ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/9/../../../../x86_64-linux-gnu/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /usr/include/c++/9]
+        ignore line: [ /usr/include/x86_64-linux-gnu/c++/9]
+        ignore line: [ /usr/include/c++/9/backward]
+        ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/9/include]
+        ignore line: [ /usr/local/include]
+        ignore line: [ /usr/include/x86_64-linux-gnu]
+        ignore line: [ /usr/include]
+        ignore line: [End of search list.]
+        ignore line: [GNU C++17 (Ubuntu 9.5.0-6ubuntu2) version 9.5.0 (x86_64-linux-gnu)]
+        ignore line: [	compiled by GNU C version 9.5.0  GMP version 6.3.0  MPFR version 4.2.1  MPC version 1.3.1  isl version isl-0.26-GMP]
+        ignore line: []
+        ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+        ignore line: [Compiler executable checksum: 66ea8946341454def67826b9f0958054]
+        ignore line: [COLLECT_GCC_OPTIONS='-std=c++17' '-v' '-o' 'CMakeFiles/cmTC_4b6e5.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+        ignore line: [ as -v --64 -o CMakeFiles/cmTC_4b6e5.dir/CMakeCXXCompilerABI.cpp.o /tmp/cc5uY4QN.s]
+        ignore line: [GNU assembler version 2.42 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.42]
+        ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/]
+        ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../:/lib/:/usr/lib/]
+        ignore line: [COLLECT_GCC_OPTIONS='-std=c++17' '-v' '-o' 'CMakeFiles/cmTC_4b6e5.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+        ignore line: [Linking CXX executable cmTC_4b6e5]
+        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4b6e5.dir/link.txt --verbose=1]
+        ignore line: [/usr/bin/c++  -v CMakeFiles/cmTC_4b6e5.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_4b6e5 ]
+        ignore line: [Using built-in specs.]
+        ignore line: [COLLECT_GCC=/usr/bin/c++]
+        ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper]
+        ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none:hsa]
+        ignore line: [OFFLOAD_TARGET_DEFAULT=1]
+        ignore line: [Target: x86_64-linux-gnu]
+        ignore line: [Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.5.0-6ubuntu2' --with-bugurl=file:///usr/share/doc/gcc-9/README.Bugs --enable-languages=c ada c++ go brig d fortran objc obj-c++ gm2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-9 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32 m64 mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-9-xyHAOX/gcc-9-9.5.0/debian/tmp-nvptx/usr hsa --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu --with-build-config=bootstrap-lto-lean --enable-link-mutex]
+        ignore line: [Thread model: posix]
+        ignore line: [gcc version 9.5.0 (Ubuntu 9.5.0-6ubuntu2) ]
+        ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/]
+        ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../:/lib/:/usr/lib/]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_4b6e5' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+        link line: [ /usr/lib/gcc/x86_64-linux-gnu/9/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/9/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper -plugin-opt=-fresolution=/tmp/ccfu4U94.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_4b6e5 /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/9/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/9 -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/9/../../.. CMakeFiles/cmTC_4b6e5.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/9/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o]
+          arg [/usr/lib/gcc/x86_64-linux-gnu/9/collect2] ==> ignore
+          arg [-plugin] ==> ignore
+          arg [/usr/lib/gcc/x86_64-linux-gnu/9/liblto_plugin.so] ==> ignore
+          arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper] ==> ignore
+          arg [-plugin-opt=-fresolution=/tmp/ccfu4U94.res] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+          arg [-plugin-opt=-pass-through=-lc] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+          arg [--build-id] ==> ignore
+          arg [--eh-frame-hdr] ==> ignore
+          arg [-m] ==> ignore
+          arg [elf_x86_64] ==> ignore
+          arg [--hash-style=gnu] ==> ignore
+          arg [--as-needed] ==> ignore
+          arg [-dynamic-linker] ==> ignore
+          arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
+          arg [-pie] ==> ignore
+          arg [-znow] ==> ignore
+          arg [-zrelro] ==> ignore
+          arg [-o] ==> ignore
+          arg [cmTC_4b6e5] ==> ignore
+          arg [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/Scrt1.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/Scrt1.o]
+          arg [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o]
+          arg [/usr/lib/gcc/x86_64-linux-gnu/9/crtbeginS.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/9/crtbeginS.o]
+          arg [-L/usr/lib/gcc/x86_64-linux-gnu/9] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/9]
+          arg [-L/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu]
+          arg [-L/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib]
+          arg [-L/lib/x86_64-linux-gnu] ==> dir [/lib/x86_64-linux-gnu]
+          arg [-L/lib/../lib] ==> dir [/lib/../lib]
+          arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
+          arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
+          arg [-L/usr/lib/gcc/x86_64-linux-gnu/9/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../..]
+          arg [CMakeFiles/cmTC_4b6e5.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+          arg [-lstdc++] ==> lib [stdc++]
+          arg [-lm] ==> lib [m]
+          arg [-lgcc_s] ==> lib [gcc_s]
+          arg [-lgcc] ==> lib [gcc]
+          arg [-lc] ==> lib [c]
+          arg [-lgcc_s] ==> lib [gcc_s]
+          arg [-lgcc] ==> lib [gcc]
+          arg [/usr/lib/gcc/x86_64-linux-gnu/9/crtendS.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/9/crtendS.o]
+          arg [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o]
+        collapse obj [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/Scrt1.o] ==> [/usr/lib/x86_64-linux-gnu/Scrt1.o]
+        collapse obj [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o] ==> [/usr/lib/x86_64-linux-gnu/crti.o]
+        collapse obj [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o] ==> [/usr/lib/x86_64-linux-gnu/crtn.o]
+        collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/9] ==> [/usr/lib/gcc/x86_64-linux-gnu/9]
+        collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu] ==> [/usr/lib/x86_64-linux-gnu]
+        collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib] ==> [/usr/lib]
+        collapse library dir [/lib/x86_64-linux-gnu] ==> [/lib/x86_64-linux-gnu]
+        collapse library dir [/lib/../lib] ==> [/lib]
+        collapse library dir [/usr/lib/x86_64-linux-gnu] ==> [/usr/lib/x86_64-linux-gnu]
+        collapse library dir [/usr/lib/../lib] ==> [/usr/lib]
+        collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../..] ==> [/usr/lib]
+        implicit libs: [stdc++;m;gcc_s;gcc;c;gcc_s;gcc]
+        implicit objs: [/usr/lib/x86_64-linux-gnu/Scrt1.o;/usr/lib/x86_64-linux-gnu/crti.o;/usr/lib/gcc/x86_64-linux-gnu/9/crtbeginS.o;/usr/lib/gcc/x86_64-linux-gnu/9/crtendS.o;/usr/lib/x86_64-linux-gnu/crtn.o]
+        implicit dirs: [/usr/lib/gcc/x86_64-linux-gnu/9;/usr/lib/x86_64-linux-gnu;/usr/lib;/lib/x86_64-linux-gnu;/lib]
+        implicit fwks: []
+      
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "CMakeLists.txt:80 (find_package)"
+    description: "The MPI test test_mpi for CXX in mode normal"
+    directories:
+      source: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-Al2xrG"
+      binary: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-Al2xrG"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/cmake"
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-Al2xrG'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_54d5e/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_54d5e.dir/build.make CMakeFiles/cmTC_54d5e.dir/build
+        gmake[1]: Entering directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-Al2xrG'
+        Building CXX object CMakeFiles/cmTC_54d5e.dir/test_mpi.cpp.o
+        /usr/bin/c++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=c++17 -o CMakeFiles/cmTC_54d5e.dir/test_mpi.cpp.o -c /home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-Al2xrG/test_mpi.cpp
+        Linking CXX executable cmTC_54d5e
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_54d5e.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_54d5e.dir/test_mpi.cpp.o -o cmTC_54d5e  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so 
+        gmake[1]: Leaving directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-Al2xrG'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindMPI.cmake:1672 (_MPI_try_staged_settings)"
+      - "CMakeLists.txt:80 (find_package)"
+    description: "The MPI test test_mpi for CXX in mode MPICXX"
+    directories:
+      source: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-acntoR"
+      binary: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-acntoR"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/cmake"
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_MPICXX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-acntoR'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_1c132/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_1c132.dir/build.make CMakeFiles/cmTC_1c132.dir/build
+        gmake[1]: Entering directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-acntoR'
+        Building CXX object CMakeFiles/cmTC_1c132.dir/test_mpi.cpp.o
+        /usr/bin/c++  -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=c++17 -o CMakeFiles/cmTC_1c132.dir/test_mpi.cpp.o -c /home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-acntoR/test_mpi.cpp
+        Linking CXX executable cmTC_1c132
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1c132.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_1c132.dir/test_mpi.cpp.o -o cmTC_1c132  -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so 
+        gmake[1]: Leaving directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-acntoR'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindOpenMP.cmake:219 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindOpenMP.cmake:486 (_OPENMP_GET_FLAGS)"
+      - "CMakeLists.txt:84 (find_package)"
+    description: "Detecting CXX OpenMP compiler info"
+    directories:
+      source: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-XZiHdB"
+      binary: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-XZiHdB"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/cmake"
+    buildResult:
+      variable: "OpenMP_COMPILE_RESULT_CXX_fopenmp"
+      cached: true
+      stdout: |
+        Change Dir: '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-XZiHdB'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_003fc/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_003fc.dir/build.make CMakeFiles/cmTC_003fc.dir/build
+        gmake[1]: Entering directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-XZiHdB'
+        Building CXX object CMakeFiles/cmTC_003fc.dir/OpenMPTryFlag.cpp.o
+        /usr/bin/c++   -fopenmp -v -std=c++17 -o CMakeFiles/cmTC_003fc.dir/OpenMPTryFlag.cpp.o -c /home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-XZiHdB/OpenMPTryFlag.cpp
+        Using built-in specs.
+        COLLECT_GCC=/usr/bin/c++
+        OFFLOAD_TARGET_NAMES=nvptx-none:hsa
+        OFFLOAD_TARGET_DEFAULT=1
+        Target: x86_64-linux-gnu
+        Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.5.0-6ubuntu2' --with-bugurl=file:///usr/share/doc/gcc-9/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++,gm2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-9 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-9-xyHAOX/gcc-9-9.5.0/debian/tmp-nvptx/usr,hsa --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu --with-build-config=bootstrap-lto-lean --enable-link-mutex
+        Thread model: posix
+        gcc version 9.5.0 (Ubuntu 9.5.0-6ubuntu2) 
+        COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-std=c++17' '-o' 'CMakeFiles/cmTC_003fc.dir/OpenMPTryFlag.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-pthread'
+         /usr/lib/gcc/x86_64-linux-gnu/9/cc1plus -quiet -v -imultiarch x86_64-linux-gnu -D_GNU_SOURCE -D_REENTRANT /home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-XZiHdB/OpenMPTryFlag.cpp -quiet -dumpbase OpenMPTryFlag.cpp -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_003fc.dir/OpenMPTryFlag.cpp.o -std=c++17 -version -fopenmp -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccndU2Fl.s
+        GNU C++17 (Ubuntu 9.5.0-6ubuntu2) version 9.5.0 (x86_64-linux-gnu)
+        	compiled by GNU C version 9.5.0, GMP version 6.3.0, MPFR version 4.2.1, MPC version 1.3.1, isl version isl-0.26-GMP
+        
+        GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+        ignoring duplicate directory "/usr/include/x86_64-linux-gnu/c++/9"
+        ignoring nonexistent directory "/usr/local/include/x86_64-linux-gnu"
+        ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/9/include-fixed"
+        ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/9/../../../../x86_64-linux-gnu/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /usr/include/c++/9
+         /usr/include/x86_64-linux-gnu/c++/9
+         /usr/include/c++/9/backward
+         /usr/lib/gcc/x86_64-linux-gnu/9/include
+         /usr/local/include
+         /usr/include/x86_64-linux-gnu
+         /usr/include
+        End of search list.
+        GNU C++17 (Ubuntu 9.5.0-6ubuntu2) version 9.5.0 (x86_64-linux-gnu)
+        	compiled by GNU C version 9.5.0, GMP version 6.3.0, MPFR version 4.2.1, MPC version 1.3.1, isl version isl-0.26-GMP
+        
+        GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+        Compiler executable checksum: 66ea8946341454def67826b9f0958054
+        COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-std=c++17' '-o' 'CMakeFiles/cmTC_003fc.dir/OpenMPTryFlag.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-pthread'
+         as -v --64 -o CMakeFiles/cmTC_003fc.dir/OpenMPTryFlag.cpp.o /tmp/ccndU2Fl.s
+        GNU assembler version 2.42 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.42
+        COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/
+        LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../:/lib/:/usr/lib/
+        COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-std=c++17' '-o' 'CMakeFiles/cmTC_003fc.dir/OpenMPTryFlag.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-pthread'
+        Linking CXX executable cmTC_003fc
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_003fc.dir/link.txt --verbose=1
+        /usr/bin/c++  -fopenmp -v CMakeFiles/cmTC_003fc.dir/OpenMPTryFlag.cpp.o -o cmTC_003fc  -v 
+        Using built-in specs.
+        COLLECT_GCC=/usr/bin/c++
+        COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper
+        OFFLOAD_TARGET_NAMES=nvptx-none:hsa
+        OFFLOAD_TARGET_DEFAULT=1
+        Target: x86_64-linux-gnu
+        Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.5.0-6ubuntu2' --with-bugurl=file:///usr/share/doc/gcc-9/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++,gm2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-9 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-9-xyHAOX/gcc-9-9.5.0/debian/tmp-nvptx/usr,hsa --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu --with-build-config=bootstrap-lto-lean --enable-link-mutex
+        Thread model: posix
+        gcc version 9.5.0 (Ubuntu 9.5.0-6ubuntu2) 
+        COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/
+        LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../:/lib/:/usr/lib/
+        Reading specs from /usr/lib/gcc/x86_64-linux-gnu/9/libgomp.spec
+        COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'cmTC_003fc' '-v' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-pthread'
+         /usr/lib/gcc/x86_64-linux-gnu/9/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/9/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper -plugin-opt=-fresolution=/tmp/ccaVe41I.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_003fc /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/9/crtbeginS.o /usr/lib/gcc/x86_64-linux-gnu/9/crtoffloadbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/9 -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/9/../../.. CMakeFiles/cmTC_003fc.dir/OpenMPTryFlag.cpp.o -lstdc++ -lm -lgomp -lgcc_s -lgcc -lpthread -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/9/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o /usr/lib/gcc/x86_64-linux-gnu/9/crtoffloadend.o
+        COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'cmTC_003fc' '-v' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-pthread'
+        gmake[1]: Leaving directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-XZiHdB'
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindOpenMP.cmake:262 (message)"
+      - "/usr/share/cmake-3.28/Modules/FindOpenMP.cmake:486 (_OPENMP_GET_FLAGS)"
+      - "CMakeLists.txt:84 (find_package)"
+    message: |
+      Parsed CXX OpenMP implicit link information from above output:
+        link line regex: [^( *|.*[/\\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        ignore line: [Change Dir: '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-XZiHdB']
+        ignore line: []
+        ignore line: [Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_003fc/fast]
+        ignore line: [/usr/bin/gmake  -f CMakeFiles/cmTC_003fc.dir/build.make CMakeFiles/cmTC_003fc.dir/build]
+        ignore line: [gmake[1]: Entering directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-XZiHdB']
+        ignore line: [Building CXX object CMakeFiles/cmTC_003fc.dir/OpenMPTryFlag.cpp.o]
+        ignore line: [/usr/bin/c++   -fopenmp -v -std=c++17 -o CMakeFiles/cmTC_003fc.dir/OpenMPTryFlag.cpp.o -c /home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-XZiHdB/OpenMPTryFlag.cpp]
+        ignore line: [Using built-in specs.]
+        ignore line: [COLLECT_GCC=/usr/bin/c++]
+        ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none:hsa]
+        ignore line: [OFFLOAD_TARGET_DEFAULT=1]
+        ignore line: [Target: x86_64-linux-gnu]
+        ignore line: [Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.5.0-6ubuntu2' --with-bugurl=file:///usr/share/doc/gcc-9/README.Bugs --enable-languages=c ada c++ go brig d fortran objc obj-c++ gm2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-9 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32 m64 mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-9-xyHAOX/gcc-9-9.5.0/debian/tmp-nvptx/usr hsa --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu --with-build-config=bootstrap-lto-lean --enable-link-mutex]
+        ignore line: [Thread model: posix]
+        ignore line: [gcc version 9.5.0 (Ubuntu 9.5.0-6ubuntu2) ]
+        ignore line: [COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-std=c++17' '-o' 'CMakeFiles/cmTC_003fc.dir/OpenMPTryFlag.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-pthread']
+        ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/9/cc1plus -quiet -v -imultiarch x86_64-linux-gnu -D_GNU_SOURCE -D_REENTRANT /home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-XZiHdB/OpenMPTryFlag.cpp -quiet -dumpbase OpenMPTryFlag.cpp -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_003fc.dir/OpenMPTryFlag.cpp.o -std=c++17 -version -fopenmp -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccndU2Fl.s]
+        ignore line: [GNU C++17 (Ubuntu 9.5.0-6ubuntu2) version 9.5.0 (x86_64-linux-gnu)]
+        ignore line: [	compiled by GNU C version 9.5.0  GMP version 6.3.0  MPFR version 4.2.1  MPC version 1.3.1  isl version isl-0.26-GMP]
+        ignore line: []
+        ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+        ignore line: [ignoring duplicate directory "/usr/include/x86_64-linux-gnu/c++/9"]
+        ignore line: [ignoring nonexistent directory "/usr/local/include/x86_64-linux-gnu"]
+        ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/9/include-fixed"]
+        ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/9/../../../../x86_64-linux-gnu/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /usr/include/c++/9]
+        ignore line: [ /usr/include/x86_64-linux-gnu/c++/9]
+        ignore line: [ /usr/include/c++/9/backward]
+        ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/9/include]
+        ignore line: [ /usr/local/include]
+        ignore line: [ /usr/include/x86_64-linux-gnu]
+        ignore line: [ /usr/include]
+        ignore line: [End of search list.]
+        ignore line: [GNU C++17 (Ubuntu 9.5.0-6ubuntu2) version 9.5.0 (x86_64-linux-gnu)]
+        ignore line: [	compiled by GNU C version 9.5.0  GMP version 6.3.0  MPFR version 4.2.1  MPC version 1.3.1  isl version isl-0.26-GMP]
+        ignore line: []
+        ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+        ignore line: [Compiler executable checksum: 66ea8946341454def67826b9f0958054]
+        ignore line: [COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-std=c++17' '-o' 'CMakeFiles/cmTC_003fc.dir/OpenMPTryFlag.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-pthread']
+        ignore line: [ as -v --64 -o CMakeFiles/cmTC_003fc.dir/OpenMPTryFlag.cpp.o /tmp/ccndU2Fl.s]
+        ignore line: [GNU assembler version 2.42 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.42]
+        ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/]
+        ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../:/lib/:/usr/lib/]
+        ignore line: [COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-std=c++17' '-o' 'CMakeFiles/cmTC_003fc.dir/OpenMPTryFlag.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-pthread']
+        ignore line: [Linking CXX executable cmTC_003fc]
+        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_003fc.dir/link.txt --verbose=1]
+        ignore line: [/usr/bin/c++  -fopenmp -v CMakeFiles/cmTC_003fc.dir/OpenMPTryFlag.cpp.o -o cmTC_003fc  -v ]
+        ignore line: [Using built-in specs.]
+        ignore line: [COLLECT_GCC=/usr/bin/c++]
+        ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper]
+        ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none:hsa]
+        ignore line: [OFFLOAD_TARGET_DEFAULT=1]
+        ignore line: [Target: x86_64-linux-gnu]
+        ignore line: [Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.5.0-6ubuntu2' --with-bugurl=file:///usr/share/doc/gcc-9/README.Bugs --enable-languages=c ada c++ go brig d fortran objc obj-c++ gm2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-9 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32 m64 mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-9-xyHAOX/gcc-9-9.5.0/debian/tmp-nvptx/usr hsa --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu --with-build-config=bootstrap-lto-lean --enable-link-mutex]
+        ignore line: [Thread model: posix]
+        ignore line: [gcc version 9.5.0 (Ubuntu 9.5.0-6ubuntu2) ]
+        ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/]
+        ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../:/lib/:/usr/lib/]
+        ignore line: [Reading specs from /usr/lib/gcc/x86_64-linux-gnu/9/libgomp.spec]
+        ignore line: [COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'cmTC_003fc' '-v' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-pthread']
+        link line: [ /usr/lib/gcc/x86_64-linux-gnu/9/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/9/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper -plugin-opt=-fresolution=/tmp/ccaVe41I.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_003fc /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/9/crtbeginS.o /usr/lib/gcc/x86_64-linux-gnu/9/crtoffloadbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/9 -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/9/../../.. CMakeFiles/cmTC_003fc.dir/OpenMPTryFlag.cpp.o -lstdc++ -lm -lgomp -lgcc_s -lgcc -lpthread -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/9/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o /usr/lib/gcc/x86_64-linux-gnu/9/crtoffloadend.o]
+          arg [/usr/lib/gcc/x86_64-linux-gnu/9/collect2] ==> ignore
+          arg [-plugin] ==> ignore
+          arg [/usr/lib/gcc/x86_64-linux-gnu/9/liblto_plugin.so] ==> ignore
+          arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper] ==> ignore
+          arg [-plugin-opt=-fresolution=/tmp/ccaVe41I.res] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+          arg [-plugin-opt=-pass-through=-lpthread] ==> ignore
+          arg [-plugin-opt=-pass-through=-lc] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+          arg [--build-id] ==> ignore
+          arg [--eh-frame-hdr] ==> ignore
+          arg [-m] ==> ignore
+          arg [elf_x86_64] ==> ignore
+          arg [--hash-style=gnu] ==> ignore
+          arg [--as-needed] ==> ignore
+          arg [-dynamic-linker] ==> ignore
+          arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
+          arg [-pie] ==> ignore
+          arg [-znow] ==> ignore
+          arg [-zrelro] ==> ignore
+          arg [-o] ==> ignore
+          arg [cmTC_003fc] ==> ignore
+          arg [-L/usr/lib/gcc/x86_64-linux-gnu/9] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/9]
+          arg [-L/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu]
+          arg [-L/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib]
+          arg [-L/lib/x86_64-linux-gnu] ==> dir [/lib/x86_64-linux-gnu]
+          arg [-L/lib/../lib] ==> dir [/lib/../lib]
+          arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
+          arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
+          arg [-L/usr/lib/gcc/x86_64-linux-gnu/9/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../..]
+          arg [CMakeFiles/cmTC_003fc.dir/OpenMPTryFlag.cpp.o] ==> ignore
+          arg [-lstdc++] ==> lib [stdc++]
+          arg [-lm] ==> lib [m]
+          arg [-lgomp] ==> lib [gomp]
+          arg [-lgcc_s] ==> lib [gcc_s]
+          arg [-lgcc] ==> lib [gcc]
+          arg [-lpthread] ==> lib [pthread]
+          arg [-lc] ==> lib [c]
+          arg [-lgcc_s] ==> lib [gcc_s]
+          arg [-lgcc] ==> lib [gcc]
+        collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/9] ==> [/usr/lib/gcc/x86_64-linux-gnu/9]
+        collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu] ==> [/usr/lib/x86_64-linux-gnu]
+        collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib] ==> [/usr/lib]
+        collapse library dir [/lib/x86_64-linux-gnu] ==> [/lib/x86_64-linux-gnu]
+        collapse library dir [/lib/../lib] ==> [/lib]
+        collapse library dir [/usr/lib/x86_64-linux-gnu] ==> [/usr/lib/x86_64-linux-gnu]
+        collapse library dir [/usr/lib/../lib] ==> [/usr/lib]
+        collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../..] ==> [/usr/lib]
+        implicit libs: [stdc++;m;gomp;gcc_s;gcc;pthread;c;gcc_s;gcc]
+        implicit objs: []
+        implicit dirs: [/usr/lib/gcc/x86_64-linux-gnu/9;/usr/lib/x86_64-linux-gnu;/usr/lib;/lib/x86_64-linux-gnu;/lib]
+        implicit fwks: []
+      
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/FindOpenMP.cmake:420 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindOpenMP.cmake:560 (_OPENMP_GET_SPEC_DATE)"
+      - "CMakeLists.txt:84 (find_package)"
+    description: "Detecting CXX OpenMP version"
+    directories:
+      source: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-jbcYut"
+      binary: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-jbcYut"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/cmake"
+    buildResult:
+      variable: "OpenMP_SPECTEST_CXX_"
+      cached: true
+      stdout: |
+        Change Dir: '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-jbcYut'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_a249a/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_a249a.dir/build.make CMakeFiles/cmTC_a249a.dir/build
+        gmake[1]: Entering directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-jbcYut'
+        Building CXX object CMakeFiles/cmTC_a249a.dir/OpenMPCheckVersion.cpp.o
+        /usr/bin/c++   -fopenmp -std=c++17 -o CMakeFiles/cmTC_a249a.dir/OpenMPCheckVersion.cpp.o -c /home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-jbcYut/OpenMPCheckVersion.cpp
+        Linking CXX executable cmTC_a249a
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a249a.dir/link.txt --verbose=1
+        /usr/bin/c++  -fopenmp CMakeFiles/cmTC_a249a.dir/OpenMPCheckVersion.cpp.o -o cmTC_a249a 
+        gmake[1]: Leaving directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-jbcYut'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CheckFunctionExists.cmake:86 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindBLAS.cmake:372 (check_function_exists)"
+      - "/usr/share/cmake-3.28/Modules/FindBLAS.cmake:416 (check_blas_libraries)"
+      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:247 (find_package)"
+      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:283 (_lapack_find_dependency)"
+      - "CMakeLists.txt:88 (find_package)"
+    checks:
+      - "Looking for sgemm_"
+    directories:
+      source: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-AvGXIk"
+      binary: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-AvGXIk"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/cmake"
+    buildResult:
+      variable: "BLAS_WORKS"
+      cached: true
+      stdout: |
+        Change Dir: '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-AvGXIk'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_c316f/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_c316f.dir/build.make CMakeFiles/cmTC_c316f.dir/build
+        gmake[1]: Entering directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-AvGXIk'
+        Building CXX object CMakeFiles/cmTC_c316f.dir/CheckFunctionExists.cxx.o
+        /usr/bin/c++   -DCHECK_FUNCTION_EXISTS=sgemm_ -std=c++17 -o CMakeFiles/cmTC_c316f.dir/CheckFunctionExists.cxx.o -c /home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-AvGXIk/CheckFunctionExists.cxx
+        Linking CXX executable cmTC_c316f
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c316f.dir/link.txt --verbose=1
+        /usr/bin/c++  -DCHECK_FUNCTION_EXISTS=sgemm_ CMakeFiles/cmTC_c316f.dir/CheckFunctionExists.cxx.o -o cmTC_c316f 
+        /usr/bin/ld: CMakeFiles/cmTC_c316f.dir/CheckFunctionExists.cxx.o: in function `main':
+        CheckFunctionExists.cxx:(.text+0x14): undefined reference to `sgemm_'
+        collect2: error: ld returned 1 exit status
+        gmake[1]: *** [CMakeFiles/cmTC_c316f.dir/build.make:99: cmTC_c316f] Error 1
+        gmake[1]: Leaving directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-AvGXIk'
+        gmake: *** [Makefile:127: cmTC_c316f/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/CheckCXXSourceCompiles.cmake:52 (cmake_check_source_compiles)"
+      - "/usr/share/cmake-3.28/Modules/FindThreads.cmake:99 (CHECK_CXX_SOURCE_COMPILES)"
+      - "/usr/share/cmake-3.28/Modules/FindThreads.cmake:163 (_threads_check_libc)"
+      - "/usr/share/cmake-3.28/Modules/FindBLAS.cmake:470 (find_package)"
+      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:247 (find_package)"
+      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:283 (_lapack_find_dependency)"
+      - "CMakeLists.txt:88 (find_package)"
+    checks:
+      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
+    directories:
+      source: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-KdZizy"
+      binary: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-KdZizy"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/cmake"
+    buildResult:
+      variable: "CMAKE_HAVE_LIBC_PTHREAD"
+      cached: true
+      stdout: |
+        Change Dir: '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-KdZizy'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_19b1c/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_19b1c.dir/build.make CMakeFiles/cmTC_19b1c.dir/build
+        gmake[1]: Entering directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-KdZizy'
+        Building CXX object CMakeFiles/cmTC_19b1c.dir/src.cxx.o
+        /usr/bin/c++ -DCMAKE_HAVE_LIBC_PTHREAD  -std=c++17 -o CMakeFiles/cmTC_19b1c.dir/src.cxx.o -c /home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-KdZizy/src.cxx
+        Linking CXX executable cmTC_19b1c
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_19b1c.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_19b1c.dir/src.cxx.o -o cmTC_19b1c 
+        gmake[1]: Leaving directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-KdZizy'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CheckFunctionExists.cmake:86 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindBLAS.cmake:372 (check_function_exists)"
+      - "/usr/share/cmake-3.28/Modules/FindBLAS.cmake:1318 (check_blas_libraries)"
+      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:247 (find_package)"
+      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:283 (_lapack_find_dependency)"
+      - "CMakeLists.txt:88 (find_package)"
+    checks:
+      - "Looking for sgemm_"
+    directories:
+      source: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-Ldbp3p"
+      binary: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-Ldbp3p"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/cmake"
+    buildResult:
+      variable: "BLAS_blas_WORKS"
+      cached: true
+      stdout: |
+        Change Dir: '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-Ldbp3p'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_30851/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_30851.dir/build.make CMakeFiles/cmTC_30851.dir/build
+        gmake[1]: Entering directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-Ldbp3p'
+        Building CXX object CMakeFiles/cmTC_30851.dir/CheckFunctionExists.cxx.o
+        /usr/bin/c++   -DCHECK_FUNCTION_EXISTS=sgemm_ -std=c++17 -o CMakeFiles/cmTC_30851.dir/CheckFunctionExists.cxx.o -c /home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-Ldbp3p/CheckFunctionExists.cxx
+        Linking CXX executable cmTC_30851
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_30851.dir/link.txt --verbose=1
+        /usr/bin/c++  -DCHECK_FUNCTION_EXISTS=sgemm_ CMakeFiles/cmTC_30851.dir/CheckFunctionExists.cxx.o -o cmTC_30851  /usr/lib/x86_64-linux-gnu/libblas.so 
+        gmake[1]: Leaving directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-Ldbp3p'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CheckFunctionExists.cmake:86 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:220 (check_function_exists)"
+      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:397 (check_lapack_libraries)"
+      - "CMakeLists.txt:88 (find_package)"
+    checks:
+      - "Looking for cheev_"
+    directories:
+      source: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-dYW70T"
+      binary: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-dYW70T"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/cmake"
+    buildResult:
+      variable: "LAPACK_WORKS"
+      cached: true
+      stdout: |
+        Change Dir: '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-dYW70T'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_8aea2/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_8aea2.dir/build.make CMakeFiles/cmTC_8aea2.dir/build
+        gmake[1]: Entering directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-dYW70T'
+        Building CXX object CMakeFiles/cmTC_8aea2.dir/CheckFunctionExists.cxx.o
+        /usr/bin/c++   -DCHECK_FUNCTION_EXISTS=cheev_ -std=c++17 -o CMakeFiles/cmTC_8aea2.dir/CheckFunctionExists.cxx.o -c /home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-dYW70T/CheckFunctionExists.cxx
+        Linking CXX executable cmTC_8aea2
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8aea2.dir/link.txt --verbose=1
+        /usr/bin/c++  -DCHECK_FUNCTION_EXISTS=cheev_ CMakeFiles/cmTC_8aea2.dir/CheckFunctionExists.cxx.o -o cmTC_8aea2  /usr/lib/x86_64-linux-gnu/libblas.so -lm -ldl 
+        /usr/bin/ld: CMakeFiles/cmTC_8aea2.dir/CheckFunctionExists.cxx.o: in function `main':
+        CheckFunctionExists.cxx:(.text+0x14): undefined reference to `cheev_'
+        collect2: error: ld returned 1 exit status
+        gmake[1]: *** [CMakeFiles/cmTC_8aea2.dir/build.make:100: cmTC_8aea2] Error 1
+        gmake[1]: Leaving directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-dYW70T'
+        gmake: *** [Makefile:127: cmTC_8aea2/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CheckFunctionExists.cmake:86 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:220 (check_function_exists)"
+      - "/usr/share/cmake-3.28/Modules/FindLAPACK.cmake:706 (check_lapack_libraries)"
+      - "CMakeLists.txt:88 (find_package)"
+    checks:
+      - "Looking for cheev_"
+    directories:
+      source: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-fAH03d"
+      binary: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-fAH03d"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/cmake"
+    buildResult:
+      variable: "LAPACK_lapack_WORKS"
+      cached: true
+      stdout: |
+        Change Dir: '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-fAH03d'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_b2d7c/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_b2d7c.dir/build.make CMakeFiles/cmTC_b2d7c.dir/build
+        gmake[1]: Entering directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-fAH03d'
+        Building CXX object CMakeFiles/cmTC_b2d7c.dir/CheckFunctionExists.cxx.o
+        /usr/bin/c++   -DCHECK_FUNCTION_EXISTS=cheev_ -std=c++17 -o CMakeFiles/cmTC_b2d7c.dir/CheckFunctionExists.cxx.o -c /home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-fAH03d/CheckFunctionExists.cxx
+        Linking CXX executable cmTC_b2d7c
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b2d7c.dir/link.txt --verbose=1
+        /usr/bin/c++  -DCHECK_FUNCTION_EXISTS=cheev_ CMakeFiles/cmTC_b2d7c.dir/CheckFunctionExists.cxx.o -o cmTC_b2d7c  /usr/lib/x86_64-linux-gnu/liblapack.so /usr/lib/x86_64-linux-gnu/libblas.so 
+        gmake[1]: Leaving directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/CMakeScratch/TryCompile-fAH03d'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "cmake/PkgConfigHelpers.cmake:54 (try_compile)"
+      - "cmake/PkgConfigHelpers.cmake:78 (check_libceed_build)"
+      - "CMakeLists.txt:123 (find_libceed_pkgconfig)"
+    directories:
+      source: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/CMakeFiles/CMakeTmp"
+      binary: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/cmake"
+    buildResult:
+      variable: "LIBCEED_TEST_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_cdc74/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_cdc74.dir/build.make CMakeFiles/cmTC_cdc74.dir/build
+        gmake[1]: Entering directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_cdc74.dir/libceed_test_lib.cpp.o
+        /usr/bin/c++  -isystem /home/jiping/FENGSim/toolkit/NLA/libceed/../install/libceed_install/include -std=c++17 -fopenmp -o CMakeFiles/cmTC_cdc74.dir/libceed_test_lib.cpp.o -c /home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/libceed_test_lib.cpp
+        Linking CXX executable cmTC_cdc74
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cdc74.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_cdc74.dir/libceed_test_lib.cpp.o -o cmTC_cdc74   -L/home/jiping/FENGSim/toolkit/NLA/install/libceed_install/lib  -Wl,-rpath,/home/jiping/FENGSim/toolkit/NLA/install/libceed_install/lib -lceed /usr/lib/gcc/x86_64-linux-gnu/9/libgomp.so /usr/lib/x86_64-linux-gnu/libpthread.a 
+        gmake[1]: Leaving directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+  -
+    kind: "try_run-v1"
+    backtrace:
+      - "cmake/PkgConfigHelpers.cmake:125 (try_run)"
+      - "cmake/PkgConfigHelpers.cmake:155 (check_petsc_build)"
+      - "CMakeLists.txt:134 (find_petsc_pkgconfig)"
+    directories:
+      source: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/CMakeFiles/CMakeTmp"
+      binary: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/cmake"
+    buildResult:
+      variable: "PETSC_TEST_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_98261/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_98261.dir/build.make CMakeFiles/cmTC_98261.dir/build
+        gmake[1]: Entering directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_98261.dir/petsc_test_lib.cpp.o
+        /usr/bin/c++  -isystem /home/jiping/FENGSim/toolkit/NLA/install/petsc_install/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=c++17 -fopenmp -o CMakeFiles/cmTC_98261.dir/petsc_test_lib.cpp.o -c /home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/petsc_test_lib.cpp
+        Linking CXX executable cmTC_98261
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_98261.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_98261.dir/petsc_test_lib.cpp.o -o cmTC_98261  -Wl,-rpath,/home/jiping/FENGSim/toolkit/NLA/install/petsc_install/lib:/usr/lib/x86_64-linux-gnu/openmpi/lib /home/jiping/FENGSim/toolkit/NLA/install/petsc_install/lib/libpetsc.so /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so /usr/lib/gcc/x86_64-linux-gnu/9/libgomp.so /usr/lib/x86_64-linux-gnu/libpthread.a 
+        gmake[1]: Leaving directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+    runResult:
+      variable: "PETSC_TEST_EXITCODE"
+      cached: true
+      stdout: |
+      exitCode: 0
+  -
+    kind: "try_run-v1"
+    backtrace:
+      - "cmake/PkgConfigHelpers.cmake:205 (try_run)"
+      - "cmake/PkgConfigHelpers.cmake:235 (check_slepc_build)"
+      - "CMakeLists.txt:138 (find_slepc_pkgconfig)"
+    directories:
+      source: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/CMakeFiles/CMakeTmp"
+      binary: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/cmake"
+    buildResult:
+      variable: "SLEPC_TEST_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_bfab2/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_bfab2.dir/build.make CMakeFiles/cmTC_bfab2.dir/build
+        gmake[1]: Entering directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_bfab2.dir/slepc_test_lib.cpp.o
+        /usr/bin/c++  -isystem /home/jiping/FENGSim/toolkit/NLA/install/slepc_install/include -isystem /home/jiping/FENGSim/toolkit/NLA/install/petsc_install/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -std=c++17 -fopenmp -o CMakeFiles/cmTC_bfab2.dir/slepc_test_lib.cpp.o -c /home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/slepc_test_lib.cpp
+        Linking CXX executable cmTC_bfab2
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_bfab2.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_bfab2.dir/slepc_test_lib.cpp.o -o cmTC_bfab2  -Wl,-rpath,/home/jiping/FENGSim/toolkit/NLA/install/slepc_install/lib:/home/jiping/FENGSim/toolkit/NLA/install/petsc_install/lib:/usr/lib/x86_64-linux-gnu/openmpi/lib /home/jiping/FENGSim/toolkit/NLA/install/slepc_install/lib/libslepc.so /home/jiping/FENGSim/toolkit/NLA/install/petsc_install/lib/libpetsc.so /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so /usr/lib/gcc/x86_64-linux-gnu/9/libgomp.so /usr/lib/x86_64-linux-gnu/libpthread.a 
+        gmake[1]: Leaving directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+    runResult:
+      variable: "SLEPC_TEST_EXITCODE"
+      cached: true
+      stdout: |
+      exitCode: 0
+  -
+    kind: "try_run-v1"
+    backtrace:
+      - "cmake/CheckCompilerFeatureSupport.cmake:26 (try_run)"
+      - "CMakeLists.txt:248 (check_constexpr_sqrt_support)"
+    directories:
+      source: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/CMakeFiles/CMakeTmp"
+      binary: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/cmake"
+    buildResult:
+      variable: "CONSTEXPR_SQRT_TEST_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_f40e0/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_f40e0.dir/build.make CMakeFiles/cmTC_f40e0.dir/build
+        gmake[1]: Entering directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_f40e0.dir/constexpr_sqrt_test.cpp.o
+        /usr/bin/c++   -std=c++17 -o CMakeFiles/cmTC_f40e0.dir/constexpr_sqrt_test.cpp.o -c /home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/constexpr_sqrt_test.cpp
+        Linking CXX executable cmTC_f40e0
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f40e0.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_f40e0.dir/constexpr_sqrt_test.cpp.o -o cmTC_f40e0 
+        gmake[1]: Leaving directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+    runResult:
+      variable: "CONSTEXPR_SQRT_TEST_EXITCODE"
+      cached: true
+      stdout: |
+      exitCode: 0
+  -
+    kind: "try_run-v1"
+    backtrace:
+      - "cmake/CheckCompilerFeatureSupport.cmake:62 (try_run)"
+      - "CMakeLists.txt:257 (check_std_fs_support)"
+    directories:
+      source: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/CMakeFiles/CMakeTmp"
+      binary: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/cmake"
+    buildResult:
+      variable: "STD_FS_TEST_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_99289/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_99289.dir/build.make CMakeFiles/cmTC_99289.dir/build
+        gmake[1]: Entering directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_99289.dir/std_fs_test.cpp.o
+        /usr/bin/c++   -std=c++17 -o CMakeFiles/cmTC_99289.dir/std_fs_test.cpp.o -c /home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/std_fs_test.cpp
+        Linking CXX executable cmTC_99289
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_99289.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_99289.dir/std_fs_test.cpp.o -o cmTC_99289 
+        gmake[1]: Leaving directory '/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build/CMakeFiles/try_run/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+    runResult:
+      variable: "STD_FS_TEST_EXITCODE"
+      cached: true
+      stdout: |
+        Current path is "/home/jiping/FENGSim/toolkit/CEM/palace-0.13.0/palace/build"
+      exitCode: 0
+...
