@@ -1,5 +1,0 @@
-cd palace
-mkdir build
-cd build
-cmake .. \
-      -Dnlohmann_json_DIR=$PWD/../../../../install/json_install/share/cmake/nlohmann_json
