@@ -1,0 +1,117 @@
+#!/bin/bash
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+help()
+{
+    echo "Usage: update-submodules [OPTIONS]
+
+Fetch most recent commit from dependency repositories
+
+Options:
+  -h, --help                       Show this help message and exit
+  -v, --verbose                    Verbose log output
+  -u, --update                     Update tags in ExternalGitTags.cmake after checking for updates
+  -p, --package <PACKAGE_NAME>     Check for updates for a specified package (may be repeated)
+"
+}
+
+# Parse arguments
+VERBOSE="false"
+UPDATE_TAGS="false"
+PKG_LIST=""
+POSITIONAL=()
+while [[ $# -gt 0 ]]; do
+    key="$1"
+    case $key in
+        -h|--help)
+        help
+        exit 0
+        ;;
+        -v|--verbose)
+        VERBOSE="true"
+        shift
+        ;;
+        -u|--update|--update-tags)
+        UPDATE_TAGS="true"
+        shift
+        ;;
+        -p|--package)
+        PKG_LIST="${PKG_LIST:+$PKG_LIST$'\n'}$2"
+        shift
+        shift
+        ;;
+        *)
+        POSITIONAL+=("$1")  # Unknown option, save it in an array for later
+        shift
+        ;;
+    esac
+done
+set -- "${POSITIONAL[@]}"  # Restore positional parameters
+
+# Check arguments
+if [[ -n "$@" ]]; then
+    help
+    exit 1
+fi
+
+SOURCE_DIR=$(dirname $(cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P ))
+
+if ! command -v git &> /dev/null; then
+    echo "Error: Command \`git\` could not be found"
+    exit 1
+fi
+
+GIT_REMOTE_URLS=$(grep '\.git' $SOURCE_DIR/cmake/ExternalGitTags.cmake | awk '{print $1}' | sed 's/\"//g')
+if [[ -n "$PKG_LIST" ]]; then
+    GIT_URLS_TMP=""
+    for PKG in $PKG_LIST; do
+        PKG_URL=$(echo "$GIT_REMOTE_URLS" | grep -i $PKG)
+        GIT_URLS_TMP="${GIT_URLS_TMP:+$GIT_URLS_TMP$'\n'}$PKG_URL"
+    done
+    GIT_REMOTE_URLS=$GIT_URLS_TMP
+fi
+if [[ -z "$GIT_REMOTE_URLS" ]]; then
+    echo "Error: Empty package list"
+    exit 1
+fi
+
+TMP_DIR=$(mktemp -d 2>/dev/null || mktemp -d -t 'TMP_DIR')
+pushd $TMP_DIR > /dev/null
+
+git init && printf "\n"
+for GIT_URL in $GIT_REMOTE_URLS; do
+    echo "Repository: $GIT_URL" && printf "\n"
+
+    git remote add origin $GIT_URL
+    GIT_BRANCH=$(grep -A 4 "$GIT_URL" $SOURCE_DIR/cmake/ExternalGitTags.cmake | tail -1 | awk '{print $1}' | sed 's/\"//g')
+    if $VERBOSE; then
+        git fetch --depth=1 origin $GIT_BRANCH && printf "\n"
+    else
+        GIT_FETCH=$(git fetch --progress --depth=1 origin $GIT_BRANCH 2>&1)
+    fi
+    GIT_LOG=$(git log -1 origin/$GIT_BRANCH)
+    git remote remove origin
+
+    GIT_TAG=$(grep -A 8 "$GIT_URL" $SOURCE_DIR/cmake/ExternalGitTags.cmake | tail -1 | awk '{print $1}' | sed 's/\"//g')
+    GIT_TAG_NEW=$(echo "$GIT_LOG" | head -1 | awk '{print $NF}')
+    if [[ ! "$GIT_TAG_NEW" == "$GIT_TAG" ]]; then
+        echo "** NEW PACKAGE VERSION AVAILABLE! **" && printf "\n"
+
+        echo "Previous tag: $GIT_TAG"
+        echo "New tag:      $GIT_TAG_NEW" && printf "\n"
+
+        echo "$GIT_LOG" && printf "\n"
+
+        if $UPDATE_TAGS; then
+            sed -i .b  "s|$GIT_TAG|$GIT_TAG_NEW|g" $SOURCE_DIR/cmake/ExternalGitTags.cmake
+            rm $SOURCE_DIR/cmake/ExternalGitTags.cmake.b
+        fi
+    else
+        echo "Already up to date" && printf "\n"
+    fi
+done
+
+popd > /dev/null
+rm -rf $TMP_DIR
