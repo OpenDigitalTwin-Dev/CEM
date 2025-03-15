@@ -72,9 +72,3 @@ include(ExternalFmt)
 # Add Eigen
 message(STATUS "===================== Configuring Eigen dependency =====================")
 include(ExternalEigen)
-
-# Add SUNDIALS
-if(PALACE_WITH_SUNDIALS)
-  message(STATUS "===================== Configuring SUNDIALS dependency =====================")
-  include(ExternalSUNDIALS)
-endif()

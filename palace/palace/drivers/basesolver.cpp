@@ -147,13 +147,15 @@ void BaseSolver::SolveEstimateMarkRefine(std::vector<std::unique_ptr<Mesh>> &mes
       Mpi::Warning("AMR is not currently supported for transient simulations!\n");
       return false;
     }
-    return (refinement.max_it > 0);
+    return refinement.max_it > 0;
   }();
   if (use_amr && mesh.size() > 1)
   {
     Mpi::Print("\nFlattening mesh sequence:\n AMR will start from the final mesh in "
                "the sequence of a priori refinements\n");
     mesh.erase(mesh.begin(), mesh.end() - 1);
+    constexpr bool refine = true, fix_orientation = true;
+    mesh.back()->Get().Finalize(refine, fix_orientation);
   }
   MPI_Comm comm = mesh.back()->GetComm();
 
@@ -226,7 +228,7 @@ void BaseSolver::SolveEstimateMarkRefine(std::vector<std::unique_ptr<Mesh>> &mes
 
     // Optionally rebalance and write the adapted mesh to file.
     {
-      const auto ratio_pre = mesh::RebalanceMesh(iodata, *mesh.back());
+      const auto ratio_pre = mesh::RebalanceMesh(*mesh.back(), iodata);
       if (ratio_pre > refinement.maximum_imbalance)
       {
         int min_elem, max_elem;

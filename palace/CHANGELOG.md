@@ -25,38 +25,6 @@ The format of this changelog is based on
   - Added `"MakeSimplex"` and `"MakeHexahedral"` mesh options to convert an input mesh to
     all tetrahedra or all hexahedra. Also adds `"SerialUniformLevels"` option to
     `config["Model"]["Refinement"]` for testing or debugging.
-  - Added `config["Model"]["CrackInternalBoundaryElements"]` which will separate or "crack" the mesh
-    along all internal boundaries. This improves the performance of error estimation and AMR
-    as the recovered smooth fields do not enforce additional erroneous continuity at
-    internal boundaries. This will change the default behaviour in the case of internal
-    impedance boundary conditions, and can be disabled by setting this option to false.
-  - Added support for exact periodic boundary conditions, these can be specified as part of
-    the mesh file (where supported by the format) or by specification of `"DonorAttributes"`
-    and `"ReceiverAttributes"` in `config["Boundaries"]["Periodic"]` which will attempt to
-    match the mesh on the boundaries specified by the donor and receiver attributes. This is
-    only possible the mesh on the donor and receiver match exactly, non-matching meshes are
-    not supported.
-  - Exposed configuration linear solver and eigen solver options for the wave port
-    subproblem. These can now be specified as part of the `config["Boundaries"]["WavePort"]`
-    configuration. The defaults align with the previously hardcoded values.
-  - Nonconformal adaptation is now supported for WavePort boundary conditions. This was
-    achieved through a patch applied to MFEM to support `mfem::ParSubMesh` on external
-    nonconformal surface subdomains.
-  - Added adaptive time-stepping capability for transient simulations. The new ODE integrators
-    rely on the SUNDIALS library and can be specified by setting the
-    `config["Solver"]["Transient"]["Type"]` option to `"CVODE"` or `"ARKODE"`.
-  - Added an option to use the complex-valued system matrix for the coarse level solve (sparse
-    direct solve) instead of the real-valued approximation. This can be specified with
-    `config["Solver"]["Linear"]["ComplexCoarseSolve"]`.
-  - Fix bug in London equation implementation where a curl-curl term was added to the
-    stiffness operator instead of a mass term.
-  - Added support for Floquet periodic boundary conditions with phase-delay constraints.
-    The Floquet wave vector can be specified along with periodic boundaries in the
-    `config["Boundaries"]["Periodic"]` configuration.
-  - Fixed bug where the default `config["Model"]["CrackDisplacementFactor"]` would cause
-    lumped port discovery to fail by reducing default from `1e-3` to `1e-12`.
-  - Fixed bug in Nastran mesh reader where carriage returns (`\r`) in the mesh file could
-    cause a failure to read the mesh.
 
 ## [0.13.0] - 2024-05-20
 

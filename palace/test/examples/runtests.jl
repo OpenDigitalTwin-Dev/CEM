@@ -23,10 +23,8 @@ else
     cases = [
         "spheres",
         "rings",
-        "cylinder/cavity_pec",
-        "cylinder/cavity_impedance",
-        "cylinder/waveguide",
-        "cylinder/floquet",
+        "cavity/pec",
+        "cavity/impedance",
         "coaxial/open",
         "coaxial/matched",
         "cpw/lumped_uniform",
@@ -69,12 +67,12 @@ if "rings" in cases
     )
 end
 
-if "cylinder/cavity_pec" in cases
-    @info "Testing cylinder/cavity (PEC)..."
+if "cavity/pec" in cases
+    @info "Testing cavity (PEC)..."
     @time testcase(
-        "cylinder",
+        "cavity",
         "cavity_pec.json",
-        "cavity_pec";
+        "pec";
         palace=palace,
         np=numprocs,
         rtol=reltol,
@@ -84,42 +82,12 @@ if "cylinder/cavity_pec" in cases
     )
 end
 
-if "cylinder/cavity_impedance" in cases
-    @info "Testing cylinder/cavity (impedance)..."
+if "cavity/impedance" in cases
+    @info "Testing cavity (impedance)..."
     @time testcase(
-        "cylinder",
+        "cavity",
         "cavity_impedance.json",
-        "cavity_impedance";
-        palace=palace,
-        np=numprocs,
-        rtol=reltol,
-        atol=abstol,
-        excluded_columns=["Maximum", "Minimum", "Mean", "Error (Bkwd.)", "Error (Abs.)"],
-        skip_rowcount=true
-    )
-end
-
-if "cylinder/waveguide" in cases
-    @info "Testing cylinder/waveguide (periodic)..."
-    @time testcase(
-        "cylinder",
-        "waveguide.json",
-        "waveguide";
-        palace=palace,
-        np=numprocs,
-        rtol=reltol,
-        atol=abstol,
-        excluded_columns=["Maximum", "Minimum", "Mean", "Error (Bkwd.)", "Error (Abs.)"],
-        skip_rowcount=true
-    )
-end
-
-if "cylinder/floquet" in cases
-    @info "Testing cylinder/floquet (periodic)..."
-    @time testcase(
-        "cylinder",
-        "floquet.json",
-        "floquet";
+        "impedance";
         palace=palace,
         np=numprocs,
         rtol=reltol,

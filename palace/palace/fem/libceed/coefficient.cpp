@@ -17,7 +17,7 @@ namespace
 
 inline auto CoeffDim(int dim)
 {
-  return dim * dim;
+  return dim * (dim + 1) / 2;
 }
 
 inline void MakeDiagonalCoefficient(int dim, CeedIntScalar *mat_coeff, CeedScalar a,
@@ -30,7 +30,7 @@ inline void MakeDiagonalCoefficient(int dim, CeedIntScalar *mat_coeff, CeedScala
   }
   for (int di = 0; di < dim; ++di)
   {
-    const int idx = di * (dim + 1);
+    const int idx = (di * dim) - (((di - 1) * di) / 2);
     mat_coeff[coeff_dim * k + idx].second = a;
   }
 }
@@ -48,9 +48,8 @@ inline auto *MatCoeff(CeedIntScalar *ctx)
 
 }  // namespace
 
-std::vector<CeedIntScalar> PopulateCoefficientContext(int dim,
-                                                      const MaterialPropertyCoefficient *Q,
-                                                      bool transpose, double a)
+std::vector<CeedIntScalar>
+PopulateCoefficientContext(int dim, const MaterialPropertyCoefficient *Q, double a)
 {
   if (!Q)
   {
@@ -87,7 +86,8 @@ std::vector<CeedIntScalar> PopulateCoefficientContext(int dim,
     AttrMat(ctx.data())[i].first = (k < 0) ? zero_mat : k;
   }
 
-  // Copy material properties.
+  // Copy material properties: Matrix-valued material properties are always assumed to be
+  // symmetric and we store only the lower triangular part.
   ctx[1 + attr_mat.Size()].first = mat_coeff.SizeK() + 1;
   for (int k = 0; k < mat_coeff.SizeK(); k++)
   {
@@ -100,10 +100,10 @@ std::vector<CeedIntScalar> PopulateCoefficientContext(int dim,
     {
       for (int dj = 0; dj < dim; ++dj)
       {
-        for (int di = 0; di < dim; ++di)
+        for (int di = dj; di < dim; ++di)
         {
           // Column-major ordering.
-          const int idx = transpose ? (di * dim) + dj : (dj * dim) + di;
+          const int idx = (dj * dim) - (((dj - 1) * dj) / 2) + di - dj;
           MatCoeff(ctx.data())[coeff_dim * k + idx].second = a * mat_coeff(di, dj, k);
         }
       }
@@ -119,12 +119,11 @@ std::vector<CeedIntScalar> PopulateCoefficientContext(int dim,
 
 std::vector<CeedIntScalar>
 PopulateCoefficientContext(int dim_mass, const MaterialPropertyCoefficient *Q_mass, int dim,
-                           const MaterialPropertyCoefficient *Q, bool transpose_mass,
-                           bool transpose, double a_mass, double a)
+                           const MaterialPropertyCoefficient *Q, double a_mass, double a)
 {
   // Mass coefficient comes first, then the other one for the QFunction.
-  auto ctx_mass = PopulateCoefficientContext(dim_mass, Q_mass, transpose_mass, a_mass);
-  auto ctx = PopulateCoefficientContext(dim, Q, transpose, a);
+  auto ctx_mass = PopulateCoefficientContext(dim_mass, Q_mass, a_mass);
+  auto ctx = PopulateCoefficientContext(dim, Q, a);
   ctx_mass.insert(ctx_mass.end(), ctx.begin(), ctx.end());
   return ctx_mass;
 }

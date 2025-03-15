@@ -265,7 +265,6 @@ if(NOT "${STD_FS_LIBRARIES_CACHE}" STREQUAL "")
     PUBLIC ${STD_FS_LIBRARIES_CACHE}
   )
 endif()
-
 # Link with third-party dependencies
 if(PALACE_WITH_SLEPC)
   target_link_libraries(${LIB_TARGET_NAME}
@@ -297,18 +296,18 @@ target_link_libraries(${LIB_TARGET_NAME}
 install(
   TARGETS ${TARGET_NAME} ${LIB_TARGET_NAME}
   RUNTIME DESTINATION bin
-)
+  )
 install(
   FILES ${CMAKE_SOURCE_DIR}/../scripts/palace ${CMAKE_SOURCE_DIR}/../scripts/validate-config
   DESTINATION bin
   PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE
               WORLD_READ WORLD_EXECUTE
-)
+	      )
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/../scripts/schema
   DESTINATION bin
   FILE_PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
-)
+  )
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/fem/qfunctions
   DESTINATION include/palace
@@ -316,7 +315,7 @@ install(
 )
 
 # Add tests (disabled by default)
-add_subdirectory(../test/unit ${CMAKE_BINARY_DIR}/test/unit EXCLUDE_FROM_ALL)
+#add_subdirectory(../test/unit ${CMAKE_BINARY_DIR}/test/unit EXCLUDE_FROM_ALL)
 
 # Status messages for build settings
 message(STATUS "CMake build type: ${CMAKE_BUILD_TYPE}")

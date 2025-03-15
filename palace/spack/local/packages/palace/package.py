@@ -27,7 +27,6 @@ class Palace(CMakePackage, CudaPackage, ROCmPackage):
         "superlu-dist", default=True, description="Build with SuperLU_DIST sparse direct solver"
     )
     variant("strumpack", default=False, description="Build with STRUMPACK sparse direct solver")
-    variant("sundials", default=True, description="Build with SUNDIALS differential/algebraic equations solver")
     variant("mumps", default=False, description="Build with MUMPS sparse direct solver")
     variant("slepc", default=True, description="Build with SLEPc eigenvalue solver")
     variant("arpack", default=False, description="Build with ARPACK eigenvalue solver")
@@ -77,13 +76,6 @@ class Palace(CMakePackage, CudaPackage, ROCmPackage):
         depends_on("strumpack+openmp", when="+openmp")
         depends_on("strumpack~openmp", when="~openmp")
 
-    with when("+sundials"):
-        depends_on("sundials")
-        depends_on("sundials+shared", when="+shared")
-        depends_on("sundials~shared", when="~shared")
-        depends_on("sundials+openmp", when="+openmp")
-        depends_on("sundials~openmp", when="~openmp")
-
     with when("+mumps"):
         depends_on("mumps+metis+parmetis")
         depends_on("mumps+shared", when="+shared")
@@ -124,9 +116,7 @@ class Palace(CMakePackage, CudaPackage, ROCmPackage):
             depends_on(f"hypre{cuda_variant}", when=f"{cuda_variant}")
             depends_on(f"superlu-dist{cuda_variant}", when=f"+superlu-dist{cuda_variant}")
             depends_on(f"strumpack{cuda_variant}", when=f"+strumpack{cuda_variant}")
-            depends_on(f"sundials{cuda_variant}", when=f"+sundials{cuda_variant}")
-            depends_on(f"slepc{cuda_variant}", when=f"+slepc{cuda_variant}")
-            depends_on(f"petsc{cuda_variant}", when=f"+slepc{cuda_variant}")
+            depends_on(f"slepc{cuda_variant} ^petsc{cuda_variant}", when=f"+slepc{cuda_variant}")
             depends_on(f"magma{cuda_variant}", when=f"+magma{cuda_variant}")
     with when("+rocm"):
         for arch in ROCmPackage.amdgpu_targets:
@@ -134,9 +124,7 @@ class Palace(CMakePackage, CudaPackage, ROCmPackage):
             depends_on(f"hypre{rocm_variant}", when=f"{rocm_variant}")
             depends_on(f"superlu-dist{rocm_variant}", when=f"+superlu-dist{rocm_variant}")
             depends_on(f"strumpack{rocm_variant}", when=f"+strumpack{rocm_variant}")
-            depends_on(f"sundials{rocm_variant}", when=f"+sundials{rocm_variant}")
-            depends_on(f"slepc{rocm_variant}", when=f"+slepc{rocm_variant}")
-            depends_on(f"petsc{rocm_variant}", when=f"+slepc{rocm_variant}")
+            depends_on(f"slepc{rocm_variant} ^petsc{rocm_variant}", when=f"+slepc{rocm_variant}")
             depends_on(f"magma{rocm_variant}", when=f"+magma{rocm_variant}")
 
     # Palace always builds its own internal MFEM, libCEED, and GSLIB
@@ -157,7 +145,6 @@ class Palace(CMakePackage, CudaPackage, ROCmPackage):
             self.define_from_variant("PALACE_WITH_OPENMP", "openmp"),
             self.define_from_variant("PALACE_WITH_SUPERLU", "superlu-dist"),
             self.define_from_variant("PALACE_WITH_STRUMPACK", "strumpack"),
-            self.define_from_variant("PALACE_WITH_SUNDIALS", "sundials"),
             self.define_from_variant("PALACE_WITH_MUMPS", "mumps"),
             self.define_from_variant("PALACE_WITH_SLEPC", "slepc"),
             self.define_from_variant("PALACE_WITH_ARPACK", "arpack"),
@@ -196,8 +183,6 @@ class Palace(CMakePackage, CudaPackage, ROCmPackage):
         # against MPI libraries
         if "+superlu-dist" in self.spec:
             args += [self.define("SuperLUDist_REQUIRED_PACKAGES", "LAPACK;BLAS;MPI")]
-        if "+sundials" in self.spec:
-            args += [self.define("SUNDIALS_REQUIRED_PACKAGES", "LAPACK;BLAS;MPI")]
         if "+strumpack" in self.spec:
             args += [self.define("STRUMPACK_REQUIRED_PACKAGES", "LAPACK;BLAS;MPI;MPI_Fortran")]
         if "+mumps" in self.spec:

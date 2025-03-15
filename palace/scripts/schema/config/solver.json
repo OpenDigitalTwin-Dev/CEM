@@ -67,10 +67,7 @@
         "ExcitationWidth": { "type": "number" },
         "MaxTime": { "type": "number" },
         "TimeStep": { "type": "number" },
-        "SaveStep": { "type": "integer" },
-        "Order": {"type": "integer", "minimum": 2, "maximum": 5},
-        "RelTol": {"type": "number", "exclusiveMinimum": 0.0},
-        "AbsTol": {"type": "number", "exclusiveMinimum": 0.0}
+        "SaveStep": { "type": "integer" }
       }
     },
     "Electrostatic":
@@ -118,7 +115,6 @@
         "MGSmoothChebyshev4th": { "type": "boolean" },
         "PCMatReal": { "type": "boolean" },
         "PCMatShifted": { "type": "boolean" },
-        "ComplexCoarseSolve": {"type": "boolean"},
         "PCSide": { "type": "string" },
         "ColumnOrdering": { "type": "string" },
         "STRUMPACKCompressionType": { "type": "string" },

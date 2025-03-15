@@ -324,7 +324,9 @@ void IoData::CheckConfiguration()
   // Resolve default values in configuration file.
   if (solver.linear.type == config::LinearSolverData::Type::DEFAULT)
   {
-    if (problem.type == config::ProblemData::Type::ELECTROSTATIC)
+    if (problem.type == config::ProblemData::Type::ELECTROSTATIC ||
+        (problem.type == config::ProblemData::Type::TRANSIENT &&
+         solver.transient.type == config::TransientSolverData::Type::CENTRAL_DIFF))
     {
       solver.linear.type = config::LinearSolverData::Type::BOOMER_AMG;
     }
@@ -522,19 +524,6 @@ void IoData::NondimensionalizeInputs(mfem::ParMesh &mesh)
     data.Rs /= electromagnetics::Z0_;
     data.Ls /= electromagnetics::mu0_ * Lc;
     data.Cs /= electromagnetics::epsilon0_ * Lc;
-  }
-
-  // Floquet periodic boundaries.
-  for (auto &x : boundaries.floquet.wave_vector)
-  {
-    x *= GetMeshLengthScale();
-  }
-  for (auto &data : boundaries.periodic)
-  {
-    for (auto &x : data.wave_vector)
-    {
-      x *= GetMeshLengthScale();
-    }
   }
 
   // Wave port offset distance.

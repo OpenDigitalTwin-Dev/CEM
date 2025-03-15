@@ -156,6 +156,10 @@ SurfacePostOperator::InterfaceDielectricData::InterfaceDielectricData(
   t = data.t;
   epsilon = data.epsilon_r;
   tandelta = data.tandelta;
+
+  // Side of internal boundaries on which to compute the electric field values, given as the
+  // material with lower or higher index of refraction (higher or lower speed of light).
+  side_n_min = (data.side == config::InterfaceDielectricData::Side::SMALLER_REF_INDEX);
 }
 
 std::unique_ptr<mfem::Coefficient>
@@ -167,19 +171,19 @@ SurfacePostOperator::InterfaceDielectricData::GetCoefficient(
     case InterfaceDielectricType::DEFAULT:
       return std::make_unique<RestrictedCoefficient<
           InterfaceDielectricCoefficient<InterfaceDielectricType::DEFAULT>>>(
-          attr_list, E, mat_op, t, epsilon);
+          attr_list, E, mat_op, t, epsilon, side_n_min);
     case InterfaceDielectricType::MA:
       return std::make_unique<RestrictedCoefficient<
-          InterfaceDielectricCoefficient<InterfaceDielectricType::MA>>>(attr_list, E,
-                                                                        mat_op, t, epsilon);
+          InterfaceDielectricCoefficient<InterfaceDielectricType::MA>>>(
+          attr_list, E, mat_op, t, epsilon, side_n_min);
     case InterfaceDielectricType::MS:
       return std::make_unique<RestrictedCoefficient<
-          InterfaceDielectricCoefficient<InterfaceDielectricType::MS>>>(attr_list, E,
-                                                                        mat_op, t, epsilon);
+          InterfaceDielectricCoefficient<InterfaceDielectricType::MS>>>(
+          attr_list, E, mat_op, t, epsilon, side_n_min);
     case InterfaceDielectricType::SA:
       return std::make_unique<RestrictedCoefficient<
-          InterfaceDielectricCoefficient<InterfaceDielectricType::SA>>>(attr_list, E,
-                                                                        mat_op, t, epsilon);
+          InterfaceDielectricCoefficient<InterfaceDielectricType::SA>>>(
+          attr_list, E, mat_op, t, epsilon, side_n_min);
   }
   return {};  // For compiler warning
 }
@@ -214,7 +218,7 @@ SurfacePostOperator::SurfacePostOperator(const IoData &iodata,
     MFEM_VERIFY(iodata.problem.type != config::ProblemData::Type::MAGNETOSTATIC ||
                     data.type == config::SurfaceFluxData::Type::MAGNETIC,
                 "Electric field or power surface flux postprocessing are not available "
-                "for magnetostatic problems!");
+                "for electrostatic problems!");
     flux_surfs.try_emplace(idx, data, *h1_fespace.GetParMesh(), bdr_attr_marker);
   }
 
@@ -239,17 +243,14 @@ std::complex<double> SurfacePostOperator::GetSurfaceFlux(int idx, const GridFunc
   MFEM_VERIFY(it != flux_surfs.end(),
               "Unknown surface flux postprocessing index requested!");
   const bool has_imag = (E) ? E->HasImag() : B->HasImag();
-  const auto &mesh = *h1_fespace.GetParMesh();
-  int bdr_attr_max = mesh.bdr_attributes.Size() ? mesh.bdr_attributes.Max() : 0;
-  mfem::Array<int> attr_marker = mesh::AttrToMarker(bdr_attr_max, it->second.attr_list);
   auto f =
       it->second.GetCoefficient(E ? &E->Real() : nullptr, B ? &B->Real() : nullptr, mat_op);
-  std::complex<double> dot(GetLocalSurfaceIntegral(*f, attr_marker), 0.0);
+  std::complex<double> dot(GetLocalSurfaceIntegral(*f, it->second.attr_list), 0.0);
   if (has_imag)
   {
     f = it->second.GetCoefficient(E ? &E->Imag() : nullptr, B ? &B->Imag() : nullptr,
                                   mat_op);
-    double doti = GetLocalSurfaceIntegral(*f, attr_marker);
+    double doti = GetLocalSurfaceIntegral(*f, it->second.attr_list);
     if (it->second.type == SurfaceFluxType::POWER)
     {
       dot += doti;
@@ -277,23 +278,21 @@ double SurfacePostOperator::GetInterfaceElectricFieldEnergy(int idx,
   auto it = eps_surfs.find(idx);
   MFEM_VERIFY(it != eps_surfs.end(),
               "Unknown interface dielectric postprocessing index requested!");
-  const auto &mesh = *h1_fespace.GetParMesh();
-  int bdr_attr_max = mesh.bdr_attributes.Size() ? mesh.bdr_attributes.Max() : 0;
-  mfem::Array<int> attr_marker = mesh::AttrToMarker(bdr_attr_max, it->second.attr_list);
   auto f = it->second.GetCoefficient(E, mat_op);
-  double dot = GetLocalSurfaceIntegral(*f, attr_marker);
+  double dot = GetLocalSurfaceIntegral(*f, it->second.attr_list);
   Mpi::GlobalSum(1, &dot, E.GetComm());
   return dot;
 }
 
-double
-SurfacePostOperator::GetLocalSurfaceIntegral(mfem::Coefficient &f,
-                                             const mfem::Array<int> &attr_marker) const
+double SurfacePostOperator::GetLocalSurfaceIntegral(mfem::Coefficient &f,
+                                                    const mfem::Array<int> &attr_list) const
 {
   // Integrate the coefficient over the boundary attributes making up this surface index.
+  const auto &mesh = *h1_fespace.GetParMesh();
+  int bdr_attr_max = mesh.bdr_attributes.Size() ? mesh.bdr_attributes.Max() : 0;
+  mfem::Array<int> attr_marker = mesh::AttrToMarker(bdr_attr_max, attr_list);
   mfem::LinearForm s(&h1_fespace);
-  s.AddBoundaryIntegrator(new BoundaryLFIntegrator(f),
-                          const_cast<mfem::Array<int> &>(attr_marker));
+  s.AddBoundaryIntegrator(new BoundaryLFIntegrator(f), attr_marker);
   s.UseFastAssembly(false);
   s.UseDevice(false);
   s.Assemble();

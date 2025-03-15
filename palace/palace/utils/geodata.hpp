@@ -24,7 +24,7 @@ namespace mesh
 
 // Read and partition a serial mesh from file, returning a pointer to the new parallel mesh
 // object, which should be destroyed by the user.
-std::unique_ptr<mfem::ParMesh> ReadMesh(const IoData &iodata, MPI_Comm comm);
+std::unique_ptr<mfem::ParMesh> ReadMesh(MPI_Comm comm, const IoData &iodata);
 
 // Refine the provided mesh according to the data in the input file. If levels of refinement
 // are requested, the refined meshes are stored in order of increased refinement. Ownership
@@ -51,23 +51,13 @@ struct ElementTypeInfo
 // Simplified helper for describing the element types in a (Par)Mesh.
 ElementTypeInfo CheckElements(const mfem::Mesh &mesh);
 
-// Check if a tetrahedral (Par)Mesh is ready for local refinement.
-bool CheckRefinementFlags(const mfem::Mesh &mesh);
-
 // Helper function to convert a set of attribute numbers to a marker array. The marker array
 // will be of size max_attr and it will contain only zeroes and ones. Ones indicate which
 // attribute numbers are present in the list array. In the special case when list has a
 // single entry equal to -1 the marker array will contain all ones.
-void AttrToMarker(int max_attr, const int *attr_list, int attr_list_size,
-                  mfem::Array<int> &marker, bool skip_invalid = false);
-
 template <typename T>
-inline void AttrToMarker(int max_attr, const T &attr_list, mfem::Array<int> &marker,
-                         bool skip_invalid = false)
-{
-  const auto size = std::distance(attr_list.begin(), attr_list.end());
-  AttrToMarker(max_attr, (size > 0) ? &attr_list[0] : nullptr, size, marker, skip_invalid);
-}
+void AttrToMarker(int max_attr, const T &attr_list, mfem::Array<int> &marker,
+                  bool skip_invalid = false);
 
 template <typename T>
 inline mfem::Array<int> AttrToMarker(int max_attr, const T &attr_list,
@@ -236,7 +226,7 @@ inline double GetVolume(const mfem::ParMesh &mesh, int attr)
 
 // Helper function responsible for rebalancing the mesh, and optionally writing meshes from
 // the intermediate stages to disk. Returns the imbalance ratio before rebalancing.
-double RebalanceMesh(const IoData &iodata, std::unique_ptr<mfem::ParMesh> &mesh);
+double RebalanceMesh(std::unique_ptr<mfem::ParMesh> &mesh, const IoData &iodata);
 
 }  // namespace mesh
 

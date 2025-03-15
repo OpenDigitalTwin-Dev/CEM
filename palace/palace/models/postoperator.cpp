@@ -54,19 +54,23 @@ PostOperator::PostOperator(const IoData &iodata, SpaceOperator &space_op,
                  &space_op.GetNDSpace().GetParMesh()),
     interp_op(iodata, space_op.GetNDSpace().GetParMesh())
 {
-  U_e = std::make_unique<EnergyDensityCoefficient<EnergyDensityType::ELECTRIC>>(*E, mat_op);
-  U_m = std::make_unique<EnergyDensityCoefficient<EnergyDensityType::MAGNETIC>>(*B, mat_op);
-  S = std::make_unique<PoyntingVectorCoefficient>(*E, *B, mat_op);
+  bool side_n_min = (iodata.boundaries.postpro.side ==
+                     config::InterfaceDielectricData::Side::SMALLER_REF_INDEX);
+  U_e = std::make_unique<EnergyDensityCoefficient<EnergyDensityType::ELECTRIC>>(*E, mat_op,
+                                                                                side_n_min);
+  U_m = std::make_unique<EnergyDensityCoefficient<EnergyDensityType::MAGNETIC>>(*B, mat_op,
+                                                                                side_n_min);
+  S = std::make_unique<PoyntingVectorCoefficient>(*E, *B, mat_op, side_n_min);
 
-  E_sr = std::make_unique<BdrFieldVectorCoefficient>(E->Real());
-  B_sr = std::make_unique<BdrFieldVectorCoefficient>(B->Real());
+  E_sr = std::make_unique<BdrFieldVectorCoefficient>(E->Real(), mat_op, side_n_min);
+  B_sr = std::make_unique<BdrFieldVectorCoefficient>(B->Real(), mat_op, side_n_min);
   J_sr = std::make_unique<BdrSurfaceCurrentVectorCoefficient>(B->Real(), mat_op);
   Q_sr = std::make_unique<BdrSurfaceFluxCoefficient<SurfaceFluxType::ELECTRIC>>(
       &E->Real(), nullptr, mat_op, true, mfem::Vector());
   if (HasImag())
   {
-    E_si = std::make_unique<BdrFieldVectorCoefficient>(E->Imag());
-    B_si = std::make_unique<BdrFieldVectorCoefficient>(B->Imag());
+    E_si = std::make_unique<BdrFieldVectorCoefficient>(E->Imag(), mat_op, side_n_min);
+    B_si = std::make_unique<BdrFieldVectorCoefficient>(B->Imag(), mat_op, side_n_min);
     J_si = std::make_unique<BdrSurfaceCurrentVectorCoefficient>(B->Imag(), mat_op);
     Q_si = std::make_unique<BdrSurfaceFluxCoefficient<SurfaceFluxType::ELECTRIC>>(
         &E->Imag(), nullptr, mat_op, true, mfem::Vector());
@@ -75,7 +79,7 @@ PostOperator::PostOperator(const IoData &iodata, SpaceOperator &space_op,
   // Add wave port boundary mode postprocessing when available.
   for (const auto &[idx, data] : space_op.GetWavePortOp())
   {
-    auto ret = port_E0.emplace(idx, WavePortFieldData());
+    auto ret = port_E0.insert(std::make_pair(idx, WavePortFieldData()));
     ret.first->second.E0r = data.GetModeFieldCoefficientReal();
     ret.first->second.E0i = data.GetModeFieldCoefficientImag();
   }
@@ -100,10 +104,13 @@ PostOperator::PostOperator(const IoData &iodata, LaplaceOperator &laplace_op,
   // Note: When using this constructor, you should not use any of the magnetic field related
   // postprocessing functions (magnetic field energy, inductor energy, surface currents,
   // etc.), since only V and E fields are supplied.
-  U_e = std::make_unique<EnergyDensityCoefficient<EnergyDensityType::ELECTRIC>>(*E, mat_op);
+  bool side_n_min = (iodata.boundaries.postpro.side ==
+                     config::InterfaceDielectricData::Side::SMALLER_REF_INDEX);
+  U_e = std::make_unique<EnergyDensityCoefficient<EnergyDensityType::ELECTRIC>>(*E, mat_op,
+                                                                                side_n_min);
 
-  E_sr = std::make_unique<BdrFieldVectorCoefficient>(E->Real());
-  V_s = std::make_unique<BdrFieldCoefficient>(V->Real());
+  E_sr = std::make_unique<BdrFieldVectorCoefficient>(E->Real(), mat_op, side_n_min);
+  V_s = std::make_unique<BdrFieldCoefficient>(V->Real(), mat_op, side_n_min);
   Q_sr = std::make_unique<BdrSurfaceFluxCoefficient<SurfaceFluxType::ELECTRIC>>(
       &E->Real(), nullptr, mat_op, true, mfem::Vector());
 
@@ -127,10 +134,13 @@ PostOperator::PostOperator(const IoData &iodata, CurlCurlOperator &curlcurl_op,
   // Note: When using this constructor, you should not use any of the electric field related
   // postprocessing functions (electric field energy, capacitor energy, surface charge,
   // etc.), since only the B field is supplied.
-  U_m = std::make_unique<EnergyDensityCoefficient<EnergyDensityType::MAGNETIC>>(*B, mat_op);
+  bool side_n_min = (iodata.boundaries.postpro.side ==
+                     config::InterfaceDielectricData::Side::SMALLER_REF_INDEX);
+  U_m = std::make_unique<EnergyDensityCoefficient<EnergyDensityType::MAGNETIC>>(*B, mat_op,
+                                                                                side_n_min);
 
-  B_sr = std::make_unique<BdrFieldVectorCoefficient>(B->Real());
-  A_s = std::make_unique<BdrFieldVectorCoefficient>(A->Real());
+  B_sr = std::make_unique<BdrFieldVectorCoefficient>(B->Real(), mat_op, side_n_min);
+  A_s = std::make_unique<BdrFieldVectorCoefficient>(A->Real(), mat_op, side_n_min);
   J_sr = std::make_unique<BdrSurfaceCurrentVectorCoefficient>(B->Real(), mat_op);
 
   // Initialize data collection objects.
@@ -159,7 +169,7 @@ void PostOperator::InitializeDataCollection(const IoData &iodata)
   paraview.SetHighOrderOutput(use_ho);
   paraview.SetLevelsOfDetail(refine_ho);
 
-  paraview_bdr.SetBoundaryOutput(true);
+  //paraview_bdr.SetBoundaryOutput(true);
   paraview_bdr.SetCycle(-1);
   paraview_bdr.SetDataFormat(format);
   paraview_bdr.SetCompressionLevel(compress);
@@ -177,13 +187,13 @@ void PostOperator::InitializeDataCollection(const IoData &iodata)
     {
       paraview.RegisterField("E_real", &E->Real());
       paraview.RegisterField("E_imag", &E->Imag());
-      paraview_bdr.RegisterVCoeffField("E_real", E_sr.get());
-      paraview_bdr.RegisterVCoeffField("E_imag", E_si.get());
+      //paraview_bdr.RegisterField("E_real", E_sr.get());
+      //paraview_bdr.RegisterField("E_imag", E_si.get());
     }
     else
     {
       paraview.RegisterField("E", &E->Real());
-      paraview_bdr.RegisterVCoeffField("E", E_sr.get());
+      //paraview_bdr.RegisterField("E", E_sr.get());
     }
   }
   if (B)
@@ -192,42 +202,42 @@ void PostOperator::InitializeDataCollection(const IoData &iodata)
     {
       paraview.RegisterField("B_real", &B->Real());
       paraview.RegisterField("B_imag", &B->Imag());
-      paraview_bdr.RegisterVCoeffField("B_real", B_sr.get());
-      paraview_bdr.RegisterVCoeffField("B_imag", B_si.get());
+      //paraview_bdr.RegisterField("B_real", B_sr.get());
+      //paraview_bdr.RegisterField("B_imag", B_si.get());
     }
     else
     {
       paraview.RegisterField("B", &B->Real());
-      paraview_bdr.RegisterVCoeffField("B", B_sr.get());
+      //paraview_bdr.RegisterField("B", B_sr.get());
     }
   }
   if (V)
   {
     paraview.RegisterField("V", &V->Real());
-    paraview_bdr.RegisterCoeffField("V", V_s.get());
+    //paraview_bdr.RegisterField("V", V_s.get());
   }
   if (A)
   {
     paraview.RegisterField("A", &A->Real());
-    paraview_bdr.RegisterVCoeffField("A", A_s.get());
+    //paraview_bdr.RegisterField("A", A_s.get());
   }
 
   // Extract energy density field for electric field energy 1/2 Dᴴ E or magnetic field
   // energy 1/2 Hᴴ B. Also Poynting vector S = E x H⋆.
   if (U_e)
   {
-    paraview.RegisterCoeffField("U_e", U_e.get());
-    paraview_bdr.RegisterCoeffField("U_e", U_e.get());
+    //paraview.RegisterField("U_e", U_e.get());
+    //paraview_bdr.RegisterField("U_e", U_e.get());
   }
   if (U_m)
   {
-    paraview.RegisterCoeffField("U_m", U_m.get());
-    paraview_bdr.RegisterCoeffField("U_m", U_m.get());
+    //paraview.RegisterField("U_m", U_m.get());
+    //paraview_bdr.RegisterField("U_m", U_m.get());
   }
   if (S)
   {
-    paraview.RegisterVCoeffField("S", S.get());
-    paraview_bdr.RegisterVCoeffField("S", S.get());
+    //paraview.RegisterField("S", S.get());
+    //paraview_bdr.RegisterField("S", S.get());
   }
 
   // Extract surface charge from normally discontinuous ND E-field. Also extract surface
@@ -237,32 +247,32 @@ void PostOperator::InitializeDataCollection(const IoData &iodata)
   {
     if (HasImag())
     {
-      paraview_bdr.RegisterCoeffField("Q_s_real", Q_sr.get());
-      paraview_bdr.RegisterCoeffField("Q_s_imag", Q_si.get());
+      //paraview_bdr.RegisterField("Q_s_real", Q_sr.get());
+      //paraview_bdr.RegisterField("Q_s_imag", Q_si.get());
     }
     else
     {
-      paraview_bdr.RegisterCoeffField("Q_s", Q_sr.get());
+      //paraview_bdr.RegisterField("Q_s", Q_sr.get());
     }
   }
   if (J_sr)
   {
     if (HasImag())
     {
-      paraview_bdr.RegisterVCoeffField("J_s_real", J_sr.get());
-      paraview_bdr.RegisterVCoeffField("J_s_imag", J_si.get());
+      //paraview_bdr.RegisterField("J_s_real", J_sr.get());
+      //paraview_bdr.RegisterField("J_s_imag", J_si.get());
     }
     else
     {
-      paraview_bdr.RegisterVCoeffField("J_s", J_sr.get());
+      //paraview_bdr.RegisterField("J_s", J_sr.get());
     }
   }
 
   // Add wave port boundary mode postprocessing when available.
-  for (const auto &[idx, data] : port_E0)
+  //for (const auto &[idx, data] : port_E0)
   {
-    paraview_bdr.RegisterVCoeffField("E0_" + std::to_string(idx) + "_real", data.E0r.get());
-    paraview_bdr.RegisterVCoeffField("E0_" + std::to_string(idx) + "_imag", data.E0i.get());
+    //paraview_bdr.RegisterField("E0_" + std::to_string(idx) + "_real", data.E0r.get());
+    //paraview_bdr.RegisterField("E0_" + std::to_string(idx) + "_imag", data.E0i.get());
   }
 }
 
@@ -755,15 +765,15 @@ void PostOperator::WriteFieldsFinal(const ErrorIndicator *indicator) const
   {
     paraview.DeregisterField(name);
   }
-  mfem::DataCollection::CoeffFieldMapType coeff_field_map(paraview.GetCoeffFieldMap());
-  for (const auto &[name, gf] : coeff_field_map)
+  //mfem::DataCollection::CoeffFieldMapType coeff_field_map(paraview.GetCoeffFieldMap());
+  //for (const auto &[name, gf] : coeff_field_map)
   {
-    paraview.DeregisterCoeffField(name);
+    //paraview.DeregisterField(name);
   }
-  mfem::DataCollection::VCoeffFieldMapType vcoeff_field_map(paraview.GetVCoeffFieldMap());
-  for (const auto &[name, gf] : vcoeff_field_map)
+  //mfem::DataCollection::VCoeffFieldMapType vcoeff_field_map(paraview.GetVCoeffFieldMap());
+  //for (const auto &[name, gf] : vcoeff_field_map)
   {
-    paraview.DeregisterVCoeffField(name);
+    //paraview.DeregisterVCoeffField(name);
   }
   mfem::L2_FECollection pwconst_fec(0, mesh.Dimension());
   mfem::FiniteElementSpace pwconst_fespace(&mesh, &pwconst_fec);
@@ -790,17 +800,17 @@ void PostOperator::WriteFieldsFinal(const ErrorIndicator *indicator) const
   {
     paraview.DeregisterField("Indicator");
   }
-  for (const auto &[name, gf] : field_map)
+  //for (const auto &[name, gf] : field_map)
   {
-    paraview.RegisterField(name, gf);
+    //paraview.RegisterField(name, gf);
   }
-  for (const auto &[name, gf] : coeff_field_map)
+  //for (const auto &[name, gf] : coeff_field_map)
   {
-    paraview.RegisterCoeffField(name, gf);
+    //paraview.RegisterField(name, gf);
   }
-  for (const auto &[name, gf] : vcoeff_field_map)
+  //for (const auto &[name, gf] : vcoeff_field_map)
   {
-    paraview.RegisterVCoeffField(name, gf);
+    //paraview.RegisterField(name, gf);
   }
   mesh::NondimensionalizeMesh(mesh, mesh_Lc0);
 }

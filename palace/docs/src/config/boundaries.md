@@ -56,16 +56,9 @@
     [
         ...
     ],
-    "Periodic":
-    [
-        ...
-    ],
-    "FloquetWaveVector":
-    [
-        ...
-    ],
     "Postprocessing":
     {
+        "Side": <string>,
         "SurfaceFlux":
         [
             ...
@@ -128,13 +121,20 @@ surface.
 electrostatic simulations. Entries of the capacitance matrix are extracted corresponding to
 each terminal boundary.
 
-`"Periodic"` :  Array of objects for configuring periodic boundary conditions for surfaces
-with meshes that are identical after translation and/or rotation.
-
-`"FloquetWaveVector"` :  Array for specifying Floquet wave vector for
-meshes generated with built-in periodicity.
-
 `"Postprocessing"` :  Top-level object for configuring boundary postprocessing.
+
+`"Side" ["SmallerRefractiveIndex"]` :  Defines the postprocessing side for internal
+boundary surfaces where the fields are in general double-valued. This is only relevant for
+output for [boundary visualization with ParaView](../guide/postprocessing.md#Visualization).
+The available options are:
+
+  - `"SmallerRefractiveIndex"` :  Take the value from the side where the material index of
+    refraction is smaller (speed of light is larger). Typically this selects the vacuum
+    side. For anisotropic materials, the index of refraction associated with the principal
+    direction with the smallest value is used.
+  - `"LargerRefractiveIndex"` :  Take the value from the side where the material index of
+    refraction is larger (speed of light is smaller). Typically this selects the non-vacuum
+    side.
 
 `"SurfaceFlux"` :  Array of objects for postprocessing surface flux.
 
@@ -356,11 +356,7 @@ corresponding coordinate system.
         "Active": <bool>,
         "Mode": <int>,
         "Offset": <float>,
-        "SolverType": <string>,
-        "MaxIts": <int>,
-        "KSPTol": <float>,
-        "EigenTol": <float>,
-        "Verbose": <int>
+        "SolverType": <string>
     },
     ...
 ]
@@ -388,16 +384,6 @@ port boundary, specified in mesh length units.
 `"SolverType" ["Default"]` :  Specifies the eigenvalue solver to be used in computing
 the boundary mode for this wave port. See
 [`config["Solver"]["Eigenmode"]["Type"]`](solver.md#solver%5B%22Eigenmode%22%5D).
-
-`"MaxIts" [30]` :  Specifies the maximum number of iterations to be used in the GMRES
-solver.
-
-`"KSPTol" [1e-8]` :  Specifies the tolerance to be used in the linear solver.
-
-`"EigenTol" [1e-6]` :  Specifies the tolerance to be used in the eigenvalue solver.
-
-`"Verbose" [0]` :  Specifies the verbosity level to be used in the linear and eigensolver
-for the wave port problem.
 
 ## `boundaries["WavePortPEC"]`
 
@@ -526,52 +512,6 @@ to index the computed capacitance matrix.
 `"Attributes" [None]` :  Integer array of mesh boundary attributes for this terminal
 boundary.
 
-## `boundaries["Periodic"]`
-
-```json
-"Periodic":
-[
-    {
-        "DonorAttributes": [<int array>],
-        "ReceiverAttributes": [<int array>],
-        "Translation": [<float array>],
-        "AffineTransformation": [<float array>],
-        "FloquetWaveVector": [<float array>]
-    },
-    ...
-]
-```
-
-with
-
-`"DonorAttributes" [None]` :  Integer array of the donor attributes of the mesh boundary
-attributes for this periodic boundary.
-
-`"ReceiverAttributes" [None]` :  Integer array of the receiver attributes of the mesh boundary
-attributes for this periodic boundary.
-
-`"Translation" [None]` :  Optional floating point array defining the distance from the donor
-attribute to the receiver attribute in mesh units. If neither `"Translation"` nor
-`"AffineTransformation"` are specified, the transformation between donor and receiver boundaries
-is automatically detected.
-
-`"AffineTransformation" [None]` :  Optional floating point array of size 16 defining the
-three-dimensional (4 x 4) affine transformation matrix (in row major format) from the donor attribute
-to the receiver attribute in mesh units. If neither `"Translation"` or `"AffineTransformation"` are
-specified, the transformation between donor and receiver boundaries is automatically detected.
-
-`"FloquetWaveVector" [None]` :  Optional floating point array defining the phase delay between
-this pair of donor and receiver periodic boundaries in the X/Y/Z directions in radians per mesh
-unit. If multiple periodic boundary pairs are used, the Floquet wave vector will be summed over
-the periodic boundary pairs.
-
-## `boundaries["FloquetWaveVector"]`
-
-Optional floating point array defining the phase delay between the periodic boundaries in the X/Y/Z
-directions in radians per mesh unit, for meshes generated with built-in periodicity. This should not
-be used for non-periodic meshes, or for meshes generated without built-in periodicity. In the latter
-case, the Floquet wave vector should be specified via `"boundaries["Periodic"]["FloquetWaveVector"]"`.
-
 ## `boundaries["Postprocessing"]["SurfaceFlux"]`
 
 ```json
@@ -632,7 +572,8 @@ axis-aligned bounding box for all elements making up the postprocessing boundary
             "Type": <string>,
             "Thickness": <float>,
             "Permittivity": <float>,
-            "LossTan": <float>
+            "LossTan": <float>,
+            "Side": <string>
         },
         ...
     ]
@@ -644,7 +585,8 @@ with
 `"Index" [None]` :  Index of this dielectric interface, used in postprocessing output files.
 
 `"Attributes" [None]` :  Integer array of mesh boundary attributes for this dielectric
-interface.
+interface. If the interface consists of multiple elements with different `"Side"` values,
+use the `"Elements"` array described below.
 
 `"Type" [None]` :  Specifies the type of dielectric interface for this postprocessing
 boundary. See also [this page](../reference.md#Bulk-and-interface-dielectric-loss).
@@ -666,3 +608,15 @@ units.
 be the interface layer permittivity for the specific `"Type"` of interface specified.
 
 `"LossTan" [0.0]` :  Loss tangent for this lossy dielectric interface.
+
+`"Side" ["SmallerRefractiveIndex"]` :  Defines the postprocessing side when this dielectric
+interface is an internal boundary surface (and thus the electric field on the boundary is in
+general double-valued). The available options are:
+
+  - `"SmallerRefractiveIndex"` :  Take the value from the side where the material index of
+    refraction is smaller (speed of light is larger). Typically this selects the vacuum
+    side. For anisotropic materials, the index of refraction associated with the principal
+    direction with the smallest value is used.
+  - `"LargerRefractiveIndex"` :  Take the value from the side where the material index of
+    refraction is larger (speed of light is smaller). Typically this selects the non-vacuum
+    side.

@@ -18,6 +18,6 @@ more details.
 
   - [Capacitance Matrix for Two Spheres](spheres.md)
   - [Inductance Matrix for a Pair of Concentric Rings](rings.md)
-  - [Eigenmodes of a Cylinder](cylinder.md)
+  - [Eigenmodes of a Cylindrical Cavity](cavity.md)
   - [Signal Propagation in a Coaxial Cable](coaxial.md)
   - [Crosstalk Between Coplanar Waveguides](cpw.md)

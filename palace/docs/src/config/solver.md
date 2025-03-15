@@ -208,10 +208,7 @@ error tolerance.
     "ExcitationWidth": <float>,
     "MaxTime": <float>,
     "TimeStep": <float>,
-    "SaveStep": <int>,
-    "Order": <int>,
-    "RelTol": <float>,
-    "AbsTol": <float>
+    "SaveStep": <int>
 }
 ```
 
@@ -221,12 +218,14 @@ with
 the second-order system of differential equations. The available options are:
 
   - `"GeneralizedAlpha"` :  The second-order implicit generalized-``\alpha`` method with
-    ``\rho_{\inf} = 1.0``. This scheme is unconditionally stable.
-  - `"ARKODE"` :  SUNDIALS ARKode implicit Runge-Kutta scheme applied to the first-order
-    ODE system for the electric field with adaptive time-stepping. This option is only available when *Palace* has been [built with SUNDIALS support](../install.md#Configuration-options).
-  - `"CVODE"` :  SUNDIALS CVODE implicit multistep method scheme applied to the first-order
-    ODE system for the electric field with adaptive time-stepping. This option is only available when *Palace* has been [built with SUNDIALS support](../install.md#Configuration-options).
-  - `"RungeKutta"` : Two stage, singly diagonal implicit Runge-Kutta (SDIRK) method. Second order and L-stable.
+    ``\rho_\inf = 1.0``. This scheme is unconditionally stable.
+  - `"NewmarkBeta"` :  The second-order implicit Newmark-``\beta`` method with
+    ``\beta = 1/4`` and ``\gamma = 1/2``. This scheme is unconditionally stable.
+  - `"CentralDifference"` :  The second-order explicit central difference method, obtained
+    by setting ``\beta = 0`` and ``\gamma = 1/2`` in the Newmark-``\beta`` method. In this
+    case, the maximum eigenvalue of the system operator is estimated at the start of the
+    simulation and used to restrict the simulation time step to below the maximum stability
+    time step.
   - `"Default"` :  Use the default `"GeneralizedAlpha"` time integration scheme.
 
 `"Excitation" [None]` :  Controls the time dependence of the source excitation. The
@@ -260,16 +259,6 @@ start from rest at ``t = 0.0``.
 disk for [visualization with ParaView](../guide/postprocessing.md#Visualization). Files are
 saved in the `paraview/` directory under the directory specified by
 [`config["Problem"]["Output"]`](problem.md#config%5B%22Problem%22%5D).
-
-`"Order" [2]` :  Order of the adaptive Runge-Kutta integrators or maximum order of the
-multistep method, must be within `[2,5]`. Should only be specified if `"Type"` is `"ARKODE"`
-or `"CVODE"`.
-
-`"RelTol" [1e-4]` :  Relative tolerance used in adaptive time-stepping schemes. Should only
-be specified if `"Type"` is `"ARKODE"` or `"CVODE"`.
-
-`"AbsTol" [1e-9]` :  Absolute tolerance used in adaptive time-stepping schemes. Should only
-be specified if `"Type"` is `"ARKODE"` or `"CVODE"`.
 
 ## `solver["Electrostatic"]`
 
@@ -322,7 +311,6 @@ under the directory specified by
     "MGSmoothOrder": <int>,
     "PCMatReal": <bool>,
     "PCMatShifted": <bool>,
-    "ComplexCoarseSolve": <bool>,
     "PCSide": <string>,
     "DivFreeTol": <float>,
     "DivFreeMaxIts": <float>,
@@ -421,9 +409,6 @@ domain problems using a positive definite approximation of the system matrix by 
 the sign for the mass matrix contribution, which can help performance at high frequencies
 (relative to the lowest nonzero eigenfrequencies of the model).
 
-`"ComplexCoarseSolve" [false]` : When set to `true`, the coarse-level solver uses the true
-complex-valued system matrix. When set to `false`, the real-valued approximation is used.
-
 `"PCSide" ["Default"]` :  Side for preconditioning. Not all options are available for all
 iterative solver choices, and the default choice depends on the iterative solver used.
 
@@ -432,22 +417,10 @@ iterative solver choices, and the default choice depends on the iterative solver
   - `"Default"`
 
 `"DivFreeTol" [1.0e-12]` :  Relative tolerance for divergence-free cleaning used in the
-eigenmode simulation type. Ignored if non-zero Floquet wave vector is specified in
-[`config["Boundaries"]["Periodic"]["FloquetWaveVector"]`](boundaries.md##boundaries%5B%%22Periodic%22%5D%22FloquetWaveVector%22%5D)
-or
-[`config["Boundaries"]["FloquetWaveVector"]`](boundaries.md##boundaries%5B%%22FloquetWaveVector%22%5D),
-or non-zero
-[`config["Domains"]["Materials"]["LondonDepth"]`](domains.md##domains%5B%22Materials%22%5D%5B%22LondonDepth%22%5D)
-is specified.
+eigenmode simulation type.
 
 `"DivFreeMaxIts" [1000]` :  Maximum number of iterations for divergence-free cleaning use in
-the eigenmode simulation type. Ignored if non-zero Floquet wave vector is specified in
-[`config["Boundaries"]["Periodic"]["FloquetWaveVector"]`](boundaries.md##boundaries%5B%%22Periodic%22%5D%22FloquetWaveVector%22%5D)
-or
-[`config["Boundaries"]["FloquetWaveVector"]`](boundaries.md##boundaries%5B%%22FloquetWaveVector%22%5D),
-or non-zero
-[`config["Domains"]["Materials"]["LondonDepth"]`](domains.md##domains%5B%22Materials%22%5D%5B%22LondonDepth%22%5D)
-is specified.
+the eigenmode simulation type.
 
 `"EstimatorTol" [1.0e-6]` :  Relative tolerance for flux projection used in the
 error estimate calculation.

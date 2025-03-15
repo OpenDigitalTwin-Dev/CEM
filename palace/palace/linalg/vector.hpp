@@ -12,12 +12,12 @@
 namespace palace
 {
 
+using Vector = mfem::Vector;
+
 //
 // Functionality extending mfem::Vector from MFEM, including basic functions for parallel
 // vectors distributed across MPI processes.
 //
-
-using Vector = mfem::Vector;
 
 // A complex-valued vector represented as two real vectors, one for each component.
 class ComplexVector
@@ -165,10 +165,6 @@ template <typename VecType>
 void SetSubVector(VecType &x, const mfem::Array<int> &rows, double s);
 template <typename VecType>
 void SetSubVector(VecType &x, const mfem::Array<int> &rows, const VecType &y);
-
-// Sets contiguous entries from start to the given vector.
-template <typename VecType>
-void SetSubVector(VecType &x, int start, const VecType &y);
 
 // Sets all entries in the range [start, end) to  the given value.
 template <typename VecType>

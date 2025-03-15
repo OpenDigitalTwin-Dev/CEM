@@ -219,24 +219,9 @@ public:
   // which do not have any material properties specified.
   bool clean_unused_elements = true;
 
-  // Split, or "crack", boundary elements lying on internal boundaries to decouple the
-  // elements on either side.
-  bool crack_bdr_elements = true;
-
-  // When required, refine elements neighboring a split or crack in order to enable the
-  // decoupling.
-  bool refine_crack_elements = true;
-
-  // Factor for displacing duplicated interior boundary elements, usually added just for
-  // visualization.
-  double crack_displ_factor = 1.0e-12;
-
   // Add new boundary elements for faces are on the computational domain boundary or which
   // have attached elements on either side with different domain attributes.
   bool add_bdr_elements = true;
-
-  // Export mesh after pre-processing but before cracking.
-  bool export_prerefined_mesh = false;
 
   // Call MFEM's ReorientTetMesh as a check of mesh orientation after partitioning.
   bool reorient_tet_mesh = false;
@@ -327,7 +312,7 @@ public:
 struct DomainPostData
 {
 public:
-  // List of all postprocessing domain attributes.
+  // Set of all postprocessing domain attributes.
   std::vector<int> attributes = {};
 
   // Domain postprocessing objects.
@@ -340,7 +325,7 @@ public:
 struct DomainData
 {
 public:
-  // List of all domain attributes (excluding postprocessing).
+  // Set of all domain attributes.
   std::vector<int> attributes = {};
 
   // Domain objects.
@@ -470,38 +455,6 @@ public:
   void SetUp(json &boundaries);
 };
 
-struct PeriodicData
-{
-public:
-  // Vector defining the affine transformation matrix for this periodic boundary condition.
-  std::array<double, 16> affine_transform = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                                             0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-
-  // List of boundary donor attributes for this periodic boundary condition.
-  std::vector<int> donor_attributes = {};
-
-  // List of boundary receiver attributes for this periodic boundary condition.
-  std::vector<int> receiver_attributes = {};
-
-  // Floquet/Bloch wavevector specifying the phase delay in the X/Y/Z directions.
-  std::array<double, 3> wave_vector = {0.0, 0.0, 0.0};
-};
-
-struct PeriodicBoundaryData : public internal::DataVector<PeriodicData>
-{
-public:
-  void SetUp(json &boundaries);
-};
-
-struct FloquetData
-{
-public:
-  // Floquet/Bloch wavevector specifying the phase delay in the X/Y/Z directions.
-  std::array<double, 3> wave_vector = {0.0, 0.0, 0.0};
-
-  void SetUp(json &boundaries);
-};
-
 struct WavePortData
 {
 public:
@@ -528,18 +481,6 @@ public:
 
   // List of boundary attributes for this wave port.
   std::vector<int> attributes = {};
-
-  // Maximum number of iterations in linear solver.
-  int ksp_max_its = 45;
-
-  // Tolerance for linear solver.
-  double ksp_tol = 1e-8;
-
-  // Tolerance for eigenvalue solver.
-  double eig_tol = 1e-6;
-
-  // Print level for linear and eigenvalue solvers.
-  int verbose = 0;
 };
 
 struct WavePortBoundaryData : public internal::DataMap<WavePortData>
@@ -617,6 +558,14 @@ public:
   // Loss tangent.
   double tandelta = 0.0;
 
+  // Side of internal boundaries on which to evaluate discontinuous field quantities.
+  enum class Side
+  {
+    SMALLER_REF_INDEX,
+    LARGER_REF_INDEX
+  };
+  InterfaceDielectricData::Side side = InterfaceDielectricData::Side::SMALLER_REF_INDEX;
+
   // List of boundary attributes for this interface dielectric postprocessing index.
   std::vector<int> attributes = {};
 };
@@ -630,7 +579,11 @@ public:
 struct BoundaryPostData
 {
 public:
-  // List of all postprocessing boundary attributes.
+  // Side of internal boundaries on which to evaluate discontinuous field quantities.
+  using Side = InterfaceDielectricData::Side;
+  Side side = Side::SMALLER_REF_INDEX;
+
+  // Set of all postprocessing boundary attributes.
   std::vector<int> attributes = {};
 
   // Boundary postprocessing objects.
@@ -643,7 +596,7 @@ public:
 struct BoundaryData
 {
 public:
-  // List of all boundary attributes (excluding postprocessing).
+  // Set of all boundary attributes.
   std::vector<int> attributes = {};
 
   // Boundary objects.
@@ -656,8 +609,6 @@ public:
   LumpedPortBoundaryData lumpedport = {};
   WavePortBoundaryData waveport = {};
   SurfaceCurrentBoundaryData current = {};
-  PeriodicBoundaryData periodic = {};
-  FloquetData floquet;
   BoundaryPostData postpro = {};
 
   void SetUp(json &config);
@@ -705,7 +656,7 @@ public:
   // Maximum iterations for eigenvalue solver.
   int max_it = -1;
 
-  // Eigenvalue solver subspace dimension or maximum dimension before restart.
+  // Eigensolver subspace dimension or maximum dimension before restart.
   int max_size = -1;
 
   // Desired number of eigenmodes.
@@ -760,11 +711,10 @@ public:
   // Time integration scheme type.
   enum class Type
   {
+    DEFAULT,
     GEN_ALPHA,
-    RUNGE_KUTTA,
-    ARKODE,
-    CVODE,
-    DEFAULT = GEN_ALPHA
+    NEWMARK,
+    CENTRAL_DIFF
   };
   Type type = Type::DEFAULT;
 
@@ -792,15 +742,6 @@ public:
 
   // Step increment for saving fields to disk.
   int delta_post = 0;
-
-  // RK scheme order for SUNDIALS ARKODE integrators.
-  // Max order for SUNDIALS CVODE integrator.
-  // Not used for generalized α and Runge-Kutta integrators.
-  int order = 2;
-
-  // Adaptive time-stepping tolerances for CVODE and ARKODE.
-  double rel_tol = 1e-4;
-  double abs_tol = 1e-9;
 
   void SetUp(json &solver);
 };
@@ -891,10 +832,6 @@ public:
   // For frequency domain applications, precondition linear systems with a shifted matrix
   // (makes the preconditoner matrix SPD).
   int pc_mat_shifted = -1;
-
-  // For frequency domain applications, use the complex-valued system matrix in the sparse
-  // direct solver.
-  bool complex_coarse_solve = false;
 
   // Choose left or right preconditioning.
   enum class SideType

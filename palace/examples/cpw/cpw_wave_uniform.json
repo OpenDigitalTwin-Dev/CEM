@@ -69,41 +69,25 @@
         "Attributes": [4],
         "Mode": 1,
         "Offset": 0.0,
-        "Excitation": true,
-        "MaxIts": 30,
-        "KSPTol": 1e-8,
-        "EigenTol": 1e-6,
-        "Verbose": 0
+        "Excitation": true
       },
       {
         "Index": 2,
         "Attributes": [5],
         "Mode": 1,
-        "Offset": 0.0,
-        "MaxIts": 30,
-        "KSPTol": 1e-8,
-        "EigenTol": 1e-6,
-        "Verbose": 0
+        "Offset": 0.0
       },
       {
         "Index": 3,
         "Attributes": [6],
         "Mode": 1,
-        "Offset": 0.0,
-        "MaxIts": 30,
-        "KSPTol": 1e-8,
-        "EigenTol": 1e-6,
-        "Verbose": 0
+        "Offset": 0.0
       },
       {
         "Index": 4,
         "Attributes": [7],
         "Mode": 1,
-        "Offset": 0.0,
-        "MaxIts": 30,
-        "KSPTol": 1e-8,
-        "EigenTol": 1e-6,
-        "Verbose": 0
+        "Offset": 0.0
       }
     ],
     "Postprocessing":
@@ -150,7 +134,8 @@
           "Type": "MS",
           "Thickness": 2.0e-3,  // μm
           "Permittivity": 10.0,
-          "LossTan": 1.0
+          "LossTan": 1.0,
+          "Side": "LargerRefractiveIndex"
         },
         {
           "Index": 3,
@@ -158,7 +143,8 @@
           "Type": "MA",
           "Thickness": 2.0e-3,  // μm
           "Permittivity": 10.0,
-          "LossTan": 1.0
+          "LossTan": 1.0,
+          "Side": "SmallerRefractiveIndex"
         }
       ]
     }

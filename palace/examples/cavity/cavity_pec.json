@@ -3,12 +3,16 @@
   {
     "Type": "Eigenmode",
     "Verbose": 2,
-    "Output": "postpro/cavity_pec"
+    "Output": "postpro/pec"
   },
   "Model":
   {
-    "Mesh": "mesh/cylinder_hex.msh",
+    "Mesh": "mesh/cavity_prism.msh",
     "L0": 1.0e-2,  // cm
+    "Refinement":
+    {
+      "UniformLevels": 1
+    }
   },
   "Domains":
   {
@@ -36,7 +40,7 @@
   {
     "PEC":
     {
-      "Attributes": [2,3,4]
+      "Attributes": [2]
     }
   },
   "Solver":

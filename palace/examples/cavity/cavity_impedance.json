@@ -3,12 +3,16 @@
   {
     "Type": "Eigenmode",
     "Verbose": 2,
-    "Output": "postpro/waveguide"
+    "Output": "postpro/impedance"
   },
   "Model":
   {
-    "Mesh": "mesh/cylinder_tet.msh",
+    "Mesh": "mesh/cavity_prism.msh",
     "L0": 1.0e-2,  // cm
+    "Refinement":
+    {
+      "UniformLevels": 1
+    }
   },
   "Domains":
   {
@@ -34,18 +38,13 @@
   },
   "Boundaries":
   {
-    "Periodic":
+    "Impedance":
     [
       {
-        "DonorAttributes": [2],
-        "ReceiverAttributes": [3],
-        "Translation": [0.0, 0.0, -5.48] // in L0 units
+        "Attributes": [2],
+        "Rs": 0.0184   // Ω, surface resistance of Cu @ 5 GHz
       }
-    ],
-    "PEC":
-    {
-      "Attributes": [4]
-    }
+    ]
   },
   "Solver":
   {
@@ -54,7 +53,7 @@
     "Eigenmode":
     {
       "N": 15,
-      "Tol": 1.0e-9,
+      "Tol": 1.0e-8,
       "Target": 2.0,  // TE f111 ~ 2.9 GHz
       "Save": 15
     },
@@ -62,8 +61,9 @@
     {
       "Type": "Default",
       "KSPType": "GMRES",
-      "Tol": 1.0e-9,
+      "Tol": 1.0e-8,
       "MaxIts": 100
     }
   }
 }
+

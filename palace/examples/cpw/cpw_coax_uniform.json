@@ -80,13 +80,13 @@
       {
         "Index": 3,
         "Attributes": [6],
-        "Direction": "-R",
+        "Direction": "+R",
         "R": 56.02  // Ω
       },
       {
         "Index": 4,
         "Attributes": [7],
-        "Direction": "-R",
+        "Direction": "+R",
         "R": 56.02  // Ω
       }
     ],
@@ -134,7 +134,8 @@
           "Type": "MS",
           "Thickness": 2.0e-3,  // μm
           "Permittivity": 10.0,
-          "LossTan": 1.0
+          "LossTan": 1.0,
+          "Side": "LargerRefractiveIndex"
         },
         {
           "Index": 3,
@@ -142,7 +143,8 @@
           "Type": "MA",
           "Thickness": 2.0e-3,  // μm
           "Permittivity": 10.0,
-          "LossTan": 1.0
+          "LossTan": 1.0,
+          "Side": "SmallerRefractiveIndex"
         }
       ]
     }

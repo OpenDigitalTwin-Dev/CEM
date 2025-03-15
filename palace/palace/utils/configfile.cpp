@@ -470,11 +470,7 @@ void ModelData::SetUp(json &config)
   make_hex = model->value("MakeHexahedral", make_hex);
   reorder_elements = model->value("ReorderElements", reorder_elements);
   clean_unused_elements = model->value("CleanUnusedElements", clean_unused_elements);
-  crack_bdr_elements = model->value("CrackInternalBoundaryElements", crack_bdr_elements);
-  refine_crack_elements = model->value("RefineCrackElements", refine_crack_elements);
-  crack_displ_factor = model->value("CrackDisplacementFactor", crack_displ_factor);
   add_bdr_elements = model->value("AddInterfaceBoundaryElements", add_bdr_elements);
-  export_prerefined_mesh = model->value("ExportPrerefinedMesh", export_prerefined_mesh);
   reorient_tet_mesh = model->value("ReorientTetMesh", reorient_tet_mesh);
   partitioning = model->value("Partitioning", partitioning);
   refinement.SetUp(*model);
@@ -488,11 +484,7 @@ void ModelData::SetUp(json &config)
   model->erase("MakeHexahedral");
   model->erase("ReorderElements");
   model->erase("CleanUnusedElements");
-  model->erase("CrackInternalBoundaryElements");
-  model->erase("RefineCrackElements");
-  model->erase("CrackDisplacementFactor");
   model->erase("AddInterfaceBoundaryElements");
-  model->erase("ExportPrerefinedMesh");
   model->erase("ReorientTetMesh");
   model->erase("Partitioning");
   model->erase("Refinement");
@@ -511,11 +503,7 @@ void ModelData::SetUp(json &config)
     std::cout << "MakeHexahedral: " << make_hex << '\n';
     std::cout << "ReorderElements: " << reorder_elements << '\n';
     std::cout << "CleanUnusedElements: " << clean_unused_elements << '\n';
-    std::cout << "CrackInternalBoundaryElements: " << crack_bdr_elements << '\n';
-    std::cout << "RefineCrackElements: " << refine_crack_elements << '\n';
-    std::cout << "CrackDisplacementFactor: " << crack_displ_factor << '\n';
     std::cout << "AddInterfaceBoundaryElements: " << add_bdr_elements << '\n';
-    std::cout << "ExportPrerefinedMesh: " << export_prerefined_mesh << '\n';
     std::cout << "ReorientTetMesh: " << reorient_tet_mesh << '\n';
     std::cout << "Partitioning: " << partitioning << '\n';
   }
@@ -659,7 +647,7 @@ void DomainPostData::SetUp(json &domains)
     attributes.insert(attributes.end(), data.attributes.begin(), data.attributes.end());
   }
   std::sort(attributes.begin(), attributes.end());
-  attributes.erase(std::unique(attributes.begin(), attributes.end()), attributes.end());
+  attributes.erase(unique(attributes.begin(), attributes.end()), attributes.end());
   attributes.shrink_to_fit();
 
   // Cleanup
@@ -684,7 +672,7 @@ void DomainData::SetUp(json &config)
     attributes.insert(attributes.end(), data.attributes.begin(), data.attributes.end());
   }
   std::sort(attributes.begin(), attributes.end());
-  attributes.erase(std::unique(attributes.begin(), attributes.end()), attributes.end());
+  attributes.erase(unique(attributes.begin(), attributes.end()), attributes.end());
   attributes.shrink_to_fit();
   for (const auto &attr : postpro.attributes)
   {
@@ -1038,97 +1026,6 @@ void LumpedPortBoundaryData::SetUp(json &boundaries)
   }
 }
 
-void FloquetData::SetUp(json &boundaries)
-{
-  auto floquet = boundaries.find("FloquetWaveVector");
-  if (floquet == boundaries.end())
-  {
-    return;
-  }
-
-  MFEM_VERIFY(floquet->is_array(),
-              "\"FloquetWaveVector\" should specify an array in the configuration file!");
-  wave_vector = floquet->get<std::array<double, 3>>();
-
-  // Debug
-  if constexpr (JSON_DEBUG)
-  {
-    std::cout << "FloquetWaveVector: " << wave_vector << '\n';
-  }
-}
-
-void PeriodicBoundaryData::SetUp(json &boundaries)
-{
-  auto periodic = boundaries.find("Periodic");
-  if (periodic == boundaries.end())
-  {
-    return;
-  }
-  MFEM_VERIFY(periodic->is_array(),
-              "\"Periodic\" should specify an array in the configuration file!");
-  for (auto it = periodic->begin(); it != periodic->end(); ++it)
-  {
-    MFEM_VERIFY(it->find("DonorAttributes") != it->end(),
-                "Missing \"DonorAttributes\" list for \"Periodic\" boundary in the "
-                "configuration file!");
-    MFEM_VERIFY(it->find("ReceiverAttributes") != it->end(),
-                "Missing \"ReceiverAttributes\" list for \"Periodic\" boundary in the "
-                "configuration file!");
-    PeriodicData &data = vecdata.emplace_back();
-    data.donor_attributes = it->at("DonorAttributes").get<std::vector<int>>();  // Required
-    data.receiver_attributes =
-        it->at("ReceiverAttributes").get<std::vector<int>>();  // Required
-    auto translation = it->find("Translation");
-    if (translation != it->end())
-    {
-      MFEM_VERIFY(translation->is_array(),
-                  "\"Translation\" should specify an array in the configuration file!");
-      std::array<double, 3> translation_array = translation->get<std::array<double, 3>>();
-      for (int i = 0; i < 3; i++)
-      {
-        data.affine_transform[i * 4 + i] = 1.0;
-        data.affine_transform[i * 4 + 3] = translation_array[i];
-      }
-      data.affine_transform[3 * 4 + 3] = 1.0;
-    }
-    auto transformation = it->find("AffineTransformation");
-    if (transformation != it->end())
-    {
-      MFEM_VERIFY(
-          transformation->is_array(),
-          "\"AffineTransformation\" should specify an array in the configuration file!");
-      data.affine_transform = transformation->get<std::array<double, 16>>();
-    }
-    auto floquet = it->find("FloquetWaveVector");
-    if (floquet != it->end())
-    {
-      MFEM_VERIFY(
-          floquet->is_array(),
-          "\"FloquetWaveVector\" should specify an array in the configuration file!");
-      data.wave_vector = floquet->get<std::array<double, 3>>();
-    }
-
-    // Cleanup
-    it->erase("DonorAttributes");
-    it->erase("ReceiverAttributes");
-    it->erase("Translation");
-    it->erase("AffineTransformation");
-    it->erase("FloquetWaveVector");
-    MFEM_VERIFY(it->empty(),
-                "Found an unsupported configuration file keyword under \"Periodic\"!\n"
-                    << it->dump(2));
-
-    // Debug
-    if constexpr (JSON_DEBUG)
-    {
-      std::cout << "DonorAttributes: " << data.donor_attributes << '\n';
-      std::cout << "ReceiverAttributes: " << data.receiver_attributes << '\n';
-      std::cout << "AffineTransformation: " << data.affine_transform << '\n';
-      std::cout << "FloquetWaveVector: " << data.wave_vector << '\n';
-    }
-  }
-}
-
 // Helper for converting string keys to enum for WavePortData::EigenSolverType.
 PALACE_JSON_SERIALIZE_ENUM(WavePortData::EigenSolverType,
                            {{WavePortData::EigenSolverType::DEFAULT, "Default"},
@@ -1164,10 +1061,6 @@ void WavePortBoundaryData::SetUp(json &boundaries)
     data.eigen_type = it->value("SolverType", data.eigen_type);
     data.excitation = it->value("Excitation", data.excitation);
     data.active = it->value("Active", data.active);
-    data.ksp_max_its = it->value("MaxIts", data.ksp_max_its);
-    data.ksp_tol = it->value("KSPTol", data.ksp_tol);
-    data.eig_tol = it->value("EigenTol", data.eig_tol);
-    data.verbose = it->value("Verbose", data.verbose);
 
     // Cleanup
     it->erase("Index");
@@ -1177,10 +1070,6 @@ void WavePortBoundaryData::SetUp(json &boundaries)
     it->erase("SolverType");
     it->erase("Excitation");
     it->erase("Active");
-    it->erase("MaxIts");
-    it->erase("KSPTol");
-    it->erase("EigenTol");
-    it->erase("Verbose");
     MFEM_VERIFY(it->empty(),
                 "Found an unsupported configuration file keyword under \"WavePort\"!\n"
                     << it->dump(2));
@@ -1195,10 +1084,6 @@ void WavePortBoundaryData::SetUp(json &boundaries)
       std::cout << "SolverType: " << data.eigen_type << '\n';
       std::cout << "Excitation: " << data.excitation << '\n';
       std::cout << "Active: " << data.active << '\n';
-      std::cout << "MaxIts: " << data.ksp_max_its << '\n';
-      std::cout << "KSPTol: " << data.ksp_tol << '\n';
-      std::cout << "EigenTol: " << data.eig_tol << '\n';
-      std::cout << "Verbose: " << data.verbose << '\n';
     }
   }
 }
@@ -1340,12 +1225,17 @@ void SurfaceFluxPostData::SetUp(json &postpro)
   }
 }
 
-// Helper for converting string keys to enum for InterfaceDielectricData::Type.
+// Helper for converting string keys to enum for InterfaceDielectricData::Type and
+// InterfaceDielectricData::Side.
 PALACE_JSON_SERIALIZE_ENUM(InterfaceDielectricData::Type,
                            {{InterfaceDielectricData::Type::DEFAULT, "Default"},
                             {InterfaceDielectricData::Type::MA, "MA"},
                             {InterfaceDielectricData::Type::MS, "MS"},
                             {InterfaceDielectricData::Type::SA, "SA"}})
+PALACE_JSON_SERIALIZE_ENUM(
+    InterfaceDielectricData::Side,
+    {{InterfaceDielectricData::Side::SMALLER_REF_INDEX, "SmallerRefractiveIndex"},
+     {InterfaceDielectricData::Side::LARGER_REF_INDEX, "LargerRefractiveIndex"}})
 
 void InterfaceDielectricPostData::SetUp(json &postpro)
 {
@@ -1374,6 +1264,7 @@ void InterfaceDielectricPostData::SetUp(json &postpro)
     data.t = it->at("Thickness");             // Required
     data.epsilon_r = it->at("Permittivity");  // Required
     data.tandelta = it->value("LossTan", data.tandelta);
+    data.side = it->value("Side", data.side);
 
     // Cleanup
     it->erase("Index");
@@ -1382,6 +1273,7 @@ void InterfaceDielectricPostData::SetUp(json &postpro)
     it->erase("Thickness");
     it->erase("Permittivity");
     it->erase("LossTan");
+    it->erase("Side");
     MFEM_VERIFY(it->empty(),
                 "Found an unsupported configuration file keyword under \"Dielectric\"!\n"
                     << it->dump(2));
@@ -1395,9 +1287,11 @@ void InterfaceDielectricPostData::SetUp(json &postpro)
       std::cout << "Thickness: " << data.t << '\n';
       std::cout << "Permittivity: " << data.epsilon_r << '\n';
       std::cout << "LossTan: " << data.tandelta << '\n';
+      std::cout << "Side: " << data.side << '\n';
     }
   }
 }
+
 void BoundaryPostData::SetUp(json &boundaries)
 {
   auto postpro = boundaries.find("Postprocessing");
@@ -1405,6 +1299,8 @@ void BoundaryPostData::SetUp(json &boundaries)
   {
     return;
   }
+  side = postpro->value("Side", side);
+
   flux.SetUp(*postpro);
   dielectric.SetUp(*postpro);
 
@@ -1418,15 +1314,23 @@ void BoundaryPostData::SetUp(json &boundaries)
     attributes.insert(attributes.end(), data.attributes.begin(), data.attributes.end());
   }
   std::sort(attributes.begin(), attributes.end());
-  attributes.erase(std::unique(attributes.begin(), attributes.end()), attributes.end());
+  attributes.erase(unique(attributes.begin(), attributes.end()), attributes.end());
   attributes.shrink_to_fit();
 
   // Cleanup
+  postpro->erase("Side");
+
   postpro->erase("SurfaceFlux");
   postpro->erase("Dielectric");
   MFEM_VERIFY(postpro->empty(),
               "Found an unsupported configuration file keyword under \"Postprocessing\"!\n"
                   << postpro->dump(2));
+
+  // Debug
+  if constexpr (JSON_DEBUG)
+  {
+    std::cout << "Side: " << side << '\n';
+  }
 }
 
 void BoundaryData::SetUp(json &config)
@@ -1441,8 +1345,6 @@ void BoundaryData::SetUp(json &config)
   conductivity.SetUp(*boundaries);
   impedance.SetUp(*boundaries);
   lumpedport.SetUp(*boundaries);
-  periodic.SetUp(*boundaries);
-  floquet.SetUp(*boundaries);
   waveport.SetUp(*boundaries);
   current.SetUp(*boundaries);
   postpro.SetUp(*boundaries);
@@ -1479,8 +1381,9 @@ void BoundaryData::SetUp(json &config)
       attributes.insert(attributes.end(), elem.attributes.begin(), elem.attributes.end());
     }
   }
+  attributes.insert(attributes.end(), postpro.attributes.begin(), postpro.attributes.end());
   std::sort(attributes.begin(), attributes.end());
-  attributes.erase(std::unique(attributes.begin(), attributes.end()), attributes.end());
+  attributes.erase(unique(attributes.begin(), attributes.end()), attributes.end());
   attributes.shrink_to_fit();
 
   // Cleanup
@@ -1491,8 +1394,6 @@ void BoundaryData::SetUp(json &config)
   boundaries->erase("Conductivity");
   boundaries->erase("Impedance");
   boundaries->erase("LumpedPort");
-  boundaries->erase("Periodic");
-  boundaries->erase("FloquetWaveVector");
   boundaries->erase("WavePort");
   boundaries->erase("SurfaceCurrent");
   boundaries->erase("Ground");
@@ -1659,9 +1560,8 @@ void MagnetostaticSolverData::SetUp(json &solver)
 PALACE_JSON_SERIALIZE_ENUM(TransientSolverData::Type,
                            {{TransientSolverData::Type::DEFAULT, "Default"},
                             {TransientSolverData::Type::GEN_ALPHA, "GeneralizedAlpha"},
-                            {TransientSolverData::Type::RUNGE_KUTTA, "RungeKutta"},
-                            {TransientSolverData::Type::CVODE, "CVODE"},
-                            {TransientSolverData::Type::ARKODE, "ARKODE"}})
+                            {TransientSolverData::Type::NEWMARK, "NewmarkBeta"},
+                            {TransientSolverData::Type::CENTRAL_DIFF, "CentralDifference"}})
 PALACE_JSON_SERIALIZE_ENUM(
     TransientSolverData::ExcitationType,
     {{TransientSolverData::ExcitationType::SINUSOIDAL, "Sinusoidal"},
@@ -1692,33 +1592,6 @@ void TransientSolverData::SetUp(json &solver)
   max_t = transient->at("MaxTime");     // Required
   delta_t = transient->at("TimeStep");  // Required
   delta_post = transient->value("SaveStep", delta_post);
-  order = transient->value("Order", order);
-  rel_tol = transient->value("RelTol", rel_tol);
-  abs_tol = transient->value("AbsTol", abs_tol);
-
-  if (type == Type::GEN_ALPHA || type == Type::RUNGE_KUTTA)
-  {
-    if (transient->contains("Order"))
-    {
-      MFEM_WARNING("GeneralizedAlpha and RungeKutta transient solvers do not use "
-                   "config[\"Transient\"][\"Order\"]!");
-    }
-    if (transient->contains("RelTol") || transient->contains("AbsTol"))
-    {
-      MFEM_WARNING(
-          "GeneralizedAlpha and RungeKutta transient solvers do not use\n"
-          "config[\"Transient\"][\"RelTol\"] and config[\"Transient\"][\"AbsTol\"]!");
-    }
-  }
-  else
-  {
-    MFEM_VERIFY(rel_tol > 0,
-                "config[\"Transient\"][\"RelTol\"] must be strictly positive!");
-    MFEM_VERIFY(abs_tol > 0,
-                "config[\"Transient\"][\"AbsTol\"] must be strictly positive!");
-    MFEM_VERIFY(order >= 2 && order <= 5,
-                "config[\"Transient\"][\"Order\"] must be between 2 and 5!");
-  }
 
   // Cleanup
   transient->erase("Type");
@@ -1728,9 +1601,6 @@ void TransientSolverData::SetUp(json &solver)
   transient->erase("MaxTime");
   transient->erase("TimeStep");
   transient->erase("SaveStep");
-  transient->erase("Order");
-  transient->erase("RelTol");
-  transient->erase("AbsTol");
   MFEM_VERIFY(transient->empty(),
               "Found an unsupported configuration file keyword under \"Transient\"!\n"
                   << transient->dump(2));
@@ -1745,9 +1615,6 @@ void TransientSolverData::SetUp(json &solver)
     std::cout << "MaxTime: " << max_t << '\n';
     std::cout << "TimeStep: " << delta_t << '\n';
     std::cout << "SaveStep: " << delta_post << '\n';
-    std::cout << "Order: " << order << '\n';
-    std::cout << "RelTol: " << rel_tol << '\n';
-    std::cout << "AbsTol: " << abs_tol << '\n';
   }
 }
 
@@ -1831,7 +1698,6 @@ void LinearSolverData::SetUp(json &solver)
   // Preconditioner-specific options.
   pc_mat_real = linear->value("PCMatReal", pc_mat_real);
   pc_mat_shifted = linear->value("PCMatShifted", pc_mat_shifted);
-  complex_coarse_solve = linear->value("ComplexCoarseSolve", complex_coarse_solve);
   pc_side_type = linear->value("PCSide", pc_side_type);
   sym_fact_type = linear->value("ColumnOrdering", sym_fact_type);
   strumpack_compression_type =
@@ -1874,7 +1740,6 @@ void LinearSolverData::SetUp(json &solver)
 
   linear->erase("PCMatReal");
   linear->erase("PCMatShifted");
-  linear->erase("ComplexCoarseSolve");
   linear->erase("PCSide");
   linear->erase("ColumnOrdering");
   linear->erase("STRUMPACKCompressionType");
@@ -1919,7 +1784,6 @@ void LinearSolverData::SetUp(json &solver)
 
     std::cout << "PCMatReal: " << pc_mat_real << '\n';
     std::cout << "PCMatShifted: " << pc_mat_shifted << '\n';
-    std::cout << "ComplexCoarseSolve: " << complex_coarse_solve << '\n';
     std::cout << "PCSide: " << pc_side_type << '\n';
     std::cout << "ColumnOrdering: " << sym_fact_type << '\n';
     std::cout << "STRUMPACKCompressionType: " << strumpack_compression_type << '\n';

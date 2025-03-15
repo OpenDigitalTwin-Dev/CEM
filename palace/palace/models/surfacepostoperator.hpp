@@ -56,6 +56,7 @@ private:
   {
     InterfaceDielectricType type;
     double t, epsilon, tandelta;
+    bool side_n_min;
 
     InterfaceDielectricData(const config::InterfaceDielectricData &data,
                             const mfem::ParMesh &mesh,
@@ -73,7 +74,7 @@ private:
   mfem::ParFiniteElementSpace &h1_fespace;
 
   double GetLocalSurfaceIntegral(mfem::Coefficient &f,
-                                 const mfem::Array<int> &attr_marker) const;
+                                 const mfem::Array<int> &attr_list) const;
 
 public:
   // Data structures for postprocessing the surface with the given type.

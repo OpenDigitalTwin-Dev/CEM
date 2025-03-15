@@ -75,7 +75,7 @@ BilinearForm::PartialAssemble(const FiniteElementSpace &trial_fespace,
           integ->SetMapTypes(trial_map_type, test_map_type);
           integ->Assemble(ceed, trial_restr, test_restr, trial_basis, test_basis,
                           data.geom_data, data.geom_data_restr, &sub_op);
-          op->AddSubOperator(sub_op);  // Sub-operator owned by ceed::Operator
+          op->AddOper(sub_op);  // Sub-operator owned by ceed::Operator
         }
       }
       else if (mfem::Geometry::Dimension[geom] == mesh.Dimension() - 1 &&
@@ -95,7 +95,7 @@ BilinearForm::PartialAssemble(const FiniteElementSpace &trial_fespace,
           integ->SetMapTypes(trial_map_type, test_map_type);
           integ->Assemble(ceed, trial_restr, test_restr, trial_basis, test_basis,
                           data.geom_data, data.geom_data_restr, &sub_op);
-          op->AddSubOperator(sub_op);  // Sub-operator owned by ceed::Operator
+          op->AddOper(sub_op);  // Sub-operator owned by ceed::Operator
         }
       }
     }
@@ -181,14 +181,13 @@ BilinearForm::Assemble(const FiniteElementSpaceHierarchy &fespaces, bool skip_ze
     }
   }
 
-  // Construct the final operators using full or partial assemble as needed. We do not
-  // force the coarse-level operator to be fully assembled always, it will be only assembled
-  // as needed for parallel assembly.
+  // Construct the final operators using full or partial assemble as needed. Force the
+  // coarse-level operator to be fully assembled always.
   std::vector<std::unique_ptr<Operator>> ops;
   ops.reserve(fespaces.GetNumLevels() - l0);
   for (std::size_t l = l0; l < fespaces.GetNumLevels(); l++)
   {
-    if (UseFullAssembly(fespaces.GetFESpaceAtLevel(l), pa_order_threshold))
+    if (l == 0 || UseFullAssembly(fespaces.GetFESpaceAtLevel(l), pa_order_threshold))
     {
       ops.push_back(FullAssemble(*pa_ops[l - l0], skip_zeros));
     }
@@ -212,7 +211,7 @@ std::unique_ptr<ceed::Operator> DiscreteLinearOperator::PartialAssemble() const
       std::make_unique<ceed::Operator>(test_fespace.GetVSize(), trial_fespace.GetVSize());
 
   // Assemble the libCEED operator in parallel, each thread builds a composite operator.
-  // This should work fine if some threads create an empty operator (no elements or boundary
+  // This should work fine if some threads create an empty operator (no elements or bounday
   // elements).
   const std::size_t nt = ceed::internal::GetCeedObjects().size();
   PalacePragmaOmp(parallel if (nt > 1))
@@ -243,7 +242,7 @@ std::unique_ptr<ceed::Operator> DiscreteLinearOperator::PartialAssemble() const
         {
           CeedOperator sub_op, sub_op_t;
           interp->Assemble(ceed, trial_restr, test_restr, interp_basis, &sub_op, &sub_op_t);
-          op->AddSubOperator(sub_op, sub_op_t);  // Sub-operator owned by ceed::Operator
+          op->AddOper(sub_op, sub_op_t);  // Sub-operator owned by ceed::Operator
         }
 
         // Basis is owned by the operator.
