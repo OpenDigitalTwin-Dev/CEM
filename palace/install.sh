@@ -58,8 +58,8 @@ rm -rf build
 mkdir build
 cd build
 cmake .. \
-      -Dnlohmann_json_DIR=$PWD/../../../../install/json_install/share/cmake/nlohmann_json \
-      -Dfmt_DIR=$PWD/../../../../install/fmt_install/lib/cmake/fmt \
+      -Dnlohmann_json_DIR=$PWD/../../../../Tools/install/json_install/share/cmake/nlohmann_json \
+      -Dfmt_DIR=$PWD/../../../../Tools/install/fmt_install/lib/cmake/fmt \
       -DMFEM_DIR=$PWD/../../../../CEM/install/mfem_install/lib/cmake/mfem \
       -DLIBCEED_DIR=$PWD/../../../../NLA/install/libceed_install \
       -DPETSC_DIR=$PWD/../../../../NLA/install/petsc_install \
