@@ -5,7 +5,7 @@ cd ../../
 
 cd CEM/gslib/
 ./install.sh
-cd ../..
+cd ../../
 
 cd NLA/hypre
 ./install.sh
@@ -15,9 +15,9 @@ cd NLA/libceed
 ./install.sh
 cd ../../
 
-cd parmetis
+cd Geometry/parmetis
 ./install.sh
-cd ..
+cd ../../
 
 cd NLA/superlu_dist
 ./install.sh
@@ -25,19 +25,19 @@ cd ../../
 
 cd CEM/mfem/
 ./install.sh
-cd ../..
+cd ../../
 
-cd json
+cd Tools/json
 ./install.sh
-cd ..
+cd ../../
 
-cd fmt
+cd Tools/fmt
 ./install.sh
-cd ..
+cd ../../
 
-cd fftw
+cd Tools/fftw
 ./install
-cd ..
+cd ../../
 
 cd NLA/lapack
 ./install.sh
