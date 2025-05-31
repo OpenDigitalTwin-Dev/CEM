@@ -18,7 +18,7 @@ cmake \
     -DGSLIB_DIR=$PWD/../../install/gslib_install \
     -DHYPRE_DIR=$PWD/../../../NLA/install/hypre_install \
     -DParMETIS_DIR=$PWD/../../../Geometry/install/parmetis_install \
-    -DMETIS_DIR=$PWD/../../../NSM/extern/ALE/install/metis \
+    -DMETIS_DIR=$PWD/../../../MultiX/extern/ALE/install/metis \
     -DSuperLUDist_DIR=$PWD/../../../NLA/install/superlu_dist_install \
     -DSuperLUDist_INCLUDE_DIR=$PWD/../../../NLA/install/superlu_dist_install/include \
     -DSuperLUDist_LIBRARY=$PWD/../../../NLA/install/superlu_dist_install/lib/libsuperlu_dist.a \
